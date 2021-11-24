@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"project2/models"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -24,6 +25,7 @@ func InitDB() {
 
 // auto migrate -> untuk membuat tabel otomatis jika tabel tidak terdapat pada database
 func InitMigrate() {
+	DB.AutoMigrate(&models.Users{})
 }
 
 // ===============================================================//
