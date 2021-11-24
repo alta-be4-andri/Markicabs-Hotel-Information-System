@@ -1,7 +1,7 @@
 package models
 
-type users struct {
-	Name         string
+type Users struct {
+	Nama         string
 	Email        string
 	Password     string
 	Phone_Number string
