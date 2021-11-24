@@ -13,7 +13,7 @@ import (
 var user models.Users
 
 func CreateUserControllers(c echo.Context) error {
-	c.Bind(user)
+	c.Bind(&user)
 	user, err := databases.CreateUser(&user)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
