@@ -57,3 +57,14 @@ func DeleteUserControllers(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
+
+//login users
+func LoginUsersController(c echo.Context) error {
+	user := models.UserLogin{}
+	c.Bind(&user)
+	users, err := databases.LoginUsers(user)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.LoginFailedResponse())
+	}
+	return c.JSON(http.StatusOK, response.LoginSuccessResponse(users))
+}
