@@ -2,16 +2,15 @@ package databases
 
 import (
 	"project2/config"
+	"project2/crypt"
 	"project2/middlewares"
 	"project2/models"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 var user models.Users
 
 // function database untuk menambahkan user baru (registrasi)
-func CreateUser(user *models.Users) (interface{}, error) {
+func CreateUser(user *models.Users) (*models.Users, error) {
 	if err := config.DB.Create(&user).Error; err != nil {
 		return nil, err
 	}
@@ -47,36 +46,24 @@ func DeleteUser(id int) (interface{}, error) {
 }
 
 // function database untuk melakukan login
-func LoginUsers(user models.UserLogin) (string, error) {
+func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
 	var err error
-	userpassword := models.Users{}
-	if err = config.DB.Where("email = ?", user.Email).First(&userpassword).Error; err != nil {
-		return "", err
+	if err = config.DB.Where("email = ?", UserLogin.Email).First(&user).Error; err != nil {
+		return nil, err
 	}
-	hashpassword, _ := GeneratehashPassword(userpassword.Password)
-	check := CheckPasswordHash(user.Password, hashpassword)
+
+	check := crypt.Decrypt(user.Password, UserLogin.Password)
 	if !check {
-		return "", nil
+		return nil, nil
 	}
 	userpassword.Password = hashpassword
 
-	userpassword.Token, err = middlewares.CreateToken(int(userpassword.ID))
+	user.Token, err = middlewares.CreateToken(int(user.ID))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-
-	if err := config.DB.Save(&userpassword).Error; err != nil {
-		return "", err
+	if err := config.DB.Save(&user).Error; err != nil {
+		return nil, err
 	}
-	return userpassword.Token, nil
-}
-
-func GeneratehashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
-
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
+	return user.Token, nil
 }
