@@ -16,7 +16,7 @@ var homestay models.HomeStay
 func CreateHomestayController(c echo.Context) error {
 	c.Bind(&homestay)
 	logged := middlewares.ExtractTokenUserId(c)
-	homestay.UserID = uint(logged)
+	homestay.UsersID = uint(logged)
 	_, err := databases.CreateHomestay(&homestay)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())

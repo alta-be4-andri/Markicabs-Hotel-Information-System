@@ -9,7 +9,7 @@ type HomeStay struct {
 	Deskripsi string `gorm:"type:varchar(255);not null" json:"deskripsi" form:"deskripsi"`
 	Longitude int    `gorm:"type:int;not null" json:"long" form:"long"`
 	Latitude  int    `gorm:"type:int;not null" json:"lat" form:"lat"`
-	UserID    uint
+	UsersID   uint
 }
 
 type Get_HomeStay struct {
