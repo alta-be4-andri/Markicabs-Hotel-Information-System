@@ -14,11 +14,11 @@ var user models.Users
 
 func CreateUserControllers(c echo.Context) error {
 	c.Bind(&user)
-	user, err := databases.CreateUser(&user)
+	_, err := databases.CreateUser(&user)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-	return c.JSON(http.StatusOK, response.SuccessResponseData(user))
+	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
 
 func GetUserControllers(c echo.Context) error {
@@ -35,6 +35,7 @@ func GetUserControllers(c echo.Context) error {
 
 func UpdateUserControllers(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
+	c.Bind(&user)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
 	}
