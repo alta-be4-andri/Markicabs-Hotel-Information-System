@@ -63,6 +63,7 @@ func LoginUsers(user models.UserLogin) (string, error) {
 	if !check {
 		return "", nil
 	}
+	userpassword.Password = hashpassword
 
 	userpassword.Token, err = middlewares.CreateToken(int(userpassword.ID))
 	if err != nil {
