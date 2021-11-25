@@ -53,5 +53,5 @@ func GetIDUserHomestay(id int) (uint, error) {
 	if err.Error != nil {
 		return 0, err.Error
 	}
-	return homestay.UserID, nil
+	return homestay.UsersID, nil
 }
