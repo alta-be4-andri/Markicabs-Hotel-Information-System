@@ -19,17 +19,13 @@ func CreateUser(user *models.Users) (*models.Users, error) {
 
 // function database untuk menampilkan user by id
 func GetUser(id int) (interface{}, error) {
-	users := models.Users{}
-	type get_user struct {
-		Nama  string
-		Email string
-	}
-	err := config.DB.Find(&users, id)
-	rows_affected := config.DB.Find(&users, id).RowsAffected
+	result := models.Get_User{}
+	err := config.DB.Model(user).Find(&result, id)
+	rows_affected := err.RowsAffected
 	if err.Error != nil || rows_affected < 1 {
 		return nil, err.Error
 	}
-	return get_user{users.Nama, users.Email}, nil
+	return result, nil
 }
 
 // function database untuk memperbarui data user by id
@@ -46,7 +42,6 @@ func DeleteUser(id int) (interface{}, error) {
 	if err := config.DB.Where("id = ?", id).Delete(&user).Error; err != nil {
 		return nil, err
 	}
-	config.DB.First(&user, id)
 	return user, nil
 }
 
@@ -61,6 +56,7 @@ func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
 	if !check {
 		return nil, nil
 	}
+	userpassword.Password = hashpassword
 
 	user.Token, err = middlewares.CreateToken(int(user.ID))
 	if err != nil {
