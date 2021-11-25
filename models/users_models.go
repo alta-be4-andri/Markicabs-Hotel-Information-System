@@ -1,8 +1,6 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
+import "gorm.io/gorm"
 
 type Users struct {
 	gorm.Model
@@ -10,6 +8,7 @@ type Users struct {
 	Email        string `gorm:"type:varchar(100);unique;not null" json:"email" form:"email"`
 	Password     string `gorm:"type:varchar(100);not null" json:"password" form:"password"`
 	Phone_Number string `gorm:"type:varchar(100);unique;not null" json:"phone" form:"phone"`
+	Token        string `gorm:"type:longtext" json:"token" form:"token"`
 	// Rooms        []Rooms
 }
 
