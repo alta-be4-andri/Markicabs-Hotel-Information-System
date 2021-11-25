@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"project2/crypt"
 	"project2/lib/databases"
 	"project2/middlewares"
 	"project2/models"
@@ -14,11 +15,14 @@ var user models.Users
 
 func CreateUserControllers(c echo.Context) error {
 	c.Bind(&user)
-	user, err := databases.CreateUser(&user)
+	newPass, _ := crypt.Encrypt(user.Password)
+	user.Password = newPass
+	_, err := databases.CreateUser(&user)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-	return c.JSON(http.StatusOK, response.SuccessResponseData(user))
+
+	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
 
 func GetUserControllers(c echo.Context) error {
@@ -59,15 +63,3 @@ func LoginUsersController(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, response.LoginSuccessResponse(users))
 }
-
-// func LoginUsersControllers(c echo.Context) error {
-// 	user := models.Users{}
-// 	c.Bind(&user)
-// 	plan_pass := user.Password
-// 	log.Println(plan_pass)
-// 	token, e := databases.LoginUser(plan_pass, user)
-// 	if e != nil {
-// 		return c.JSON(http.StatusBadRequest, response.LoginFailedResponse())
-// 	}
-// 	return c.JSON(http.StatusOK, response.LoginSuccessResponse(token))
-// }
