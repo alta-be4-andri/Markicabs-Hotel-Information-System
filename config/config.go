@@ -25,15 +25,6 @@ func InitDB() {
 
 // auto migrate -> untuk membuat tabel otomatis jika tabel tidak terdapat pada database
 func InitMigrate() {
-	// DB.AutoMigrate(&models.Provinsi{})
-	// DB.AutoMigrate(&models.Kota{})
-	// DB.AutoMigrate(&models.Reservation{})
-	// DB.AutoMigrate(&models.FasilitasRoom{})
-	// DB.AutoMigrate(&models.Fasilitas{})
-	// DB.AutoMigrate(&models.Rooms{})
-	// DB.AutoMigrate(&models.HomeStay{})
-	// DB.AutoMigrate(&models.Users{})
-	// DB.AutoMigrate(&models.Review{})
 	DB.AutoMigrate(&models.Provinsi{})
 	DB.AutoMigrate(&models.Kota{})
 	DB.AutoMigrate(&models.Users{})
