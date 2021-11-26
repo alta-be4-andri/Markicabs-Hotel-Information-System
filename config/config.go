@@ -32,6 +32,7 @@ func InitMigrate() {
 	DB.AutoMigrate(&models.Rooms{})
 	DB.AutoMigrate(&models.Fasilitas{})
 	DB.AutoMigrate(&models.FasilitasRoom{})
+	DB.AutoMigrate(&models.KartuKredit{})
 	DB.AutoMigrate(&models.Reservation{})
 	DB.AutoMigrate(&models.Review{})
 }
