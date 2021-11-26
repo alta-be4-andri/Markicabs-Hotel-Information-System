@@ -1,9 +1,8 @@
 package models
 
-import "gorm.io/gorm"
-
 type Kota struct {
-	gorm.Model
-	NamaKota   string `gorm:"type:varchar(50);not null" json:"nama_provinsi" form:"nama_provinsi"`
-	ProvinsiID uint   `json:"id_provinsi" form:"id_provinsi"`
+	ID         int
+	NamaKota   string     `gorm:"type:varchar(50);not null" json:"nama_kota" form:"nama_kota"`
+	ProvinsiID int        `json:"id_provinsi" form:"id_provinsi"`
+	HomeStay   []HomeStay `gorm:"foreignKey:KotaID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
