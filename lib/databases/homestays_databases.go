@@ -59,9 +59,24 @@ func GetIDUserHomestay(id int) (uint, error) {
 
 func GetKota(id int) (string, error) {
 	var town models.Kota
-	err := config.DB.Where("id = ?", id).Find(&town)
-	if err.Error != nil {
+	if err := config.DB.Where("id = ?", id).Find(&town); err.Error != nil {
 		return "", err.Error
 	}
 	return town.Nama_Kota, nil
+}
+
+func GetRating(id int) (int, error) {
+	var rating models.HomeStay
+	if err := config.DB.Where("id = ?", id).Find(&rating).Error; err != nil {
+		return 0, err
+	}
+	return int(rating.Rating), nil
+}
+
+func AverageRatings(rating int) (float64, error) {
+	var review models.HomeStay
+	if err := config.DB.Raw("SELECT AVG(rating) FROM reviews").Scan(&review).Error; err != nil {
+		return 0, err
+	}
+	return review.Rating, nil
 }
