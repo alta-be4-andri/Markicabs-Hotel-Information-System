@@ -6,6 +6,7 @@ import (
 	"project2/lib/databases"
 	"project2/middlewares"
 	"project2/models"
+	"project2/plugins"
 	"project2/response"
 	"strconv"
 
@@ -18,18 +19,14 @@ func CreateHomestayController(c echo.Context) error {
 	c.Bind(&homestay)
 	logged := middlewares.ExtractTokenUserId(c)
 	homestay.UsersID = uint(logged)
-	fmt.Println(homestay)
+	get_kota, _ := databases.GetKota(homestay.KotaID)
+	lat, long, _ := plugins.Geocode(get_kota)
+	homestay.Latitude = lat
+	homestay.Longitude = long
 	_, err := databases.CreateHomestay(&homestay)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-	// rooms := homestay.Rooms[0]
-	// rooms.HomeStayID = getHomeStay.ID
-	// getRoom, err := databases.CreateRoom(&rooms)
-	// if err != nil {
-	// 	return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
-	// }
-	// fasilitas := inpu
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
 

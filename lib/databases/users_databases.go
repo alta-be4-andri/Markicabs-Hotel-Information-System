@@ -2,9 +2,9 @@ package databases
 
 import (
 	"project2/config"
-	"project2/crypt"
 	"project2/middlewares"
 	"project2/models"
+	"project2/plugins"
 )
 
 var user models.Users
@@ -52,7 +52,7 @@ func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
 		return nil, err
 	}
 
-	check := crypt.Decrypt(user.Password, UserLogin.Password)
+	check := plugins.Decrypt(user.Password, UserLogin.Password)
 	if !check {
 		return nil, nil
 	}

@@ -56,3 +56,12 @@ func GetIDUserHomestay(id int) (uint, error) {
 	}
 	return homestay.UsersID, nil
 }
+
+func GetKota(id int) (string, error) {
+	var town models.Kota
+	err := config.DB.Where("id = ?", id).Find(&town)
+	if err.Error != nil {
+		return "", err.Error
+	}
+	return town.Nama_Kota, nil
+}
