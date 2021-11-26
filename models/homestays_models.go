@@ -19,6 +19,6 @@ type Get_HomeStay struct {
 	Nama      string
 	Harga     int
 	Deskripsi string
-	Longitude int
-	Latitude  int
+	Longitude float64
+	Latitude  float64
 }

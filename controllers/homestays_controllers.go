@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"project2/lib/databases"
 	"project2/middlewares"
