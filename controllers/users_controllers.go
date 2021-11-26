@@ -2,10 +2,10 @@ package controllers
 
 import (
 	"net/http"
-	"project2/crypt"
 	"project2/lib/databases"
 	"project2/middlewares"
 	"project2/models"
+	"project2/plugins"
 	"project2/response"
 
 	"github.com/labstack/echo/v4"
@@ -15,7 +15,7 @@ var user models.Users
 
 func CreateUserControllers(c echo.Context) error {
 	c.Bind(&user)
-	newPass, _ := crypt.Encrypt(user.Password)
+	newPass, _ := plugins.Encrypt(user.Password)
 	user.Password = newPass
 	_, err := databases.CreateUser(&user)
 	if err != nil {
