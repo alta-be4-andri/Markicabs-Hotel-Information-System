@@ -42,6 +42,9 @@ func GetHomestayByIDController(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
 	}
+	// get_rating, _ := databases.GetRating(int(homestay.Rating))
+	// rating, _ := databases.AverageRatings(get_rating)
+	// homestay.Rating, _ = databases.GetReviews(id)
 	room, err := databases.GetHomestaysByID(id)
 	if err != nil || room == nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())

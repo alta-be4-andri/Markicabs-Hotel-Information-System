@@ -17,8 +17,8 @@ type HomeStay struct {
 
 type Get_HomeStay struct {
 	Nama      string
-	Harga     int
-	Deskripsi string
 	Longitude float64
 	Latitude  float64
+	Alamat    string
+	Rating    float64
 }
