@@ -68,3 +68,21 @@ func LoginSuccessResponse(data interface{}) map[string]interface{} {
 	}
 	return result
 }
+
+// function response check room availability failed
+func CheckFailedResponse() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "Room not available",
+	}
+	return result
+}
+
+// function response check room availability success
+func CheckSuccessResponse() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusOK,
+		"message": "Room available",
+	}
+	return result
+}
