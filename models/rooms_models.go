@@ -11,3 +11,22 @@ type Rooms struct {
 	Deskripsi      string          `gorm:"type:longtext;not null" json:"deskripsi" form:"deskripsi"`
 	FasilitasRoom  []FasilitasRoom `gorm:"foreignKey:RoomsID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
+
+type AllRoomsResponse struct {
+	ID             uint
+	Nama_Room      string
+	HomeStayID     uint
+	Total_Penghuni int
+	Harga          int
+	Deskripsi      string
+}
+
+type FasilitasRoomResponse struct {
+	ID             uint
+	Nama_Room      string
+	HomeStayID     uint
+	Total_Penghuni int
+	Harga          int
+	Deskripsi      string
+	Fasilitas      []string
+}

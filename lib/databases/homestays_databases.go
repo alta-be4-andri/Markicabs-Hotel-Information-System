@@ -8,7 +8,8 @@ import (
 var result models.Get_HomeStay
 var homestay *models.HomeStay
 
-func CreateHomestay(homestay *models.HomeStay) (interface{}, error) {
+// Fungsi untuk membuat tempat penyewaan homestay baru
+func CreateHomestay(homestay *models.HomeStay) (*models.HomeStay, error) {
 	if err := config.DB.Create(&homestay).Error; err != nil {
 		return nil, err
 	}
