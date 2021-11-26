@@ -17,6 +17,7 @@ func New() *echo.Echo {
 	e.GET("/rooms", controllers.GetAllRoomsController)
 	e.GET("/rooms/homestays/:id", controllers.GetRoomByHomestayIdController)
 	e.GET("/rooms/:id", controllers.GetRoomByIdController)
+	e.GET("/reviews/:id", controllers.GetReviewsController)
 
 	// JWT Group
 	r := e.Group("/jwt")
