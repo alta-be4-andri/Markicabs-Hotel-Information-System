@@ -37,5 +37,10 @@ func New() *echo.Echo {
 	r.PUT("/rooms/:id", controllers.UpdateRoomController)
 	r.DELETE("/rooms/:id", controllers.DeleteRoomController)
 
+	// Reservation JWT
+	r.POST("/reservations", controllers.CreateReservationControllers)
+	r.GET("/reservations/:id", controllers.GetReservationControllers)
+	r.DELETE("/reservations/:id", controllers.CancelReservationController)
+
 	return e
 }
