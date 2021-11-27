@@ -3,15 +3,26 @@ package databases
 import (
 	"project2/config"
 	"project2/models"
+	"time"
 )
 
 // Fungsi untuk membuat reservasi baru
-func CreateReservation(reservation *models.Reservation) (interface{}, error) {
+func CreateReservation(reservation *models.Reservation) (*models.Reservation, error) {
 	tx := config.DB.Create(&reservation)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
 	return reservation, nil
+}
+
+// Fungsi untuk menambahkan tanggal checkout pada reservasi yang dibuat
+func AddCheckOut(checkIn time.Time, night int, idReservation uint) {
+	config.DB.Exec("UPDATE reservations SET check_out = (SELECT DATE_ADD(?, INTERVAL ? DAY)) WHERE id = ?", checkIn, night, idReservation)
+}
+
+// Fungsi untuk menambahkan harga pada reservasi
+func AddHargaToReservation(idRoom, idReservation uint) {
+	config.DB.Exec("UPDATE reservations SET total_harga = (SELECT harga FROM rooms WHERE id = ?)*jumlah_malam WHERE id = ?", idRoom, idReservation)
 }
 
 // Fungsi untuk mendapatkan reservasi by reservasi id

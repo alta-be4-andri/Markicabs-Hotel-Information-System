@@ -14,10 +14,14 @@ import (
 func CreateReservationControllers(c echo.Context) error {
 	input := models.Reservation{}
 	c.Bind(&input)
-	_, err := databases.CreateReservation(&input)
+	logged := middlewares.ExtractTokenUserId(c)
+	input.UsersID = uint(logged)
+	reservation, err := databases.CreateReservation(&input)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
+	databases.AddCheckOut(input.Check_In, input.Jumlah_Malam, reservation.ID)
+	databases.AddHargaToReservation(input.RoomsID, reservation.ID)
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
 
