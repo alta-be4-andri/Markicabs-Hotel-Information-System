@@ -2,7 +2,6 @@ package models
 
 import "gorm.io/gorm"
 
-// struct HomeStay
 type HomeStay struct {
 	gorm.Model
 	Nama      string   `gorm:"type:varchar(255);not null" json:"nama" form:"nama"`
