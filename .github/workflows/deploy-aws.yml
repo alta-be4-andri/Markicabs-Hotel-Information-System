@@ -1,0 +1,25 @@
+name: Deploy to EC2
+on: 
+  push:
+    branches:
+      - master
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to EC2 using SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /home/ubuntu/fafagans
+          git pull origin master
+          docker stop airbnb
+          docker rm airbnb
+          docker build -t airbnb-app:latest .
+          docker run -d -e "CONNECTION_STRING=admin:GampangBanget@tcp(db-airbnb-dylanripper.cfme3nloppwr.us-east-2.rds.amazonaws.com:3306)/db-airbnb-dylanripper?charset=utf8&parseTime=True&loc=Local" -p 80:8080 --name airbnb airbnb-app:latest
