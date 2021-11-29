@@ -44,5 +44,10 @@ func New() *echo.Echo {
 	// Review JWT
 	r.POST("/reviews", controllers.AddReviewsController)
 
+	// Reservation JWT
+	r.POST("/reservations", controllers.CreateReservationControllers)
+	r.GET("/reservations/:id", controllers.GetReservationControllers)
+	r.DELETE("/reservations/:id", controllers.CancelReservationController)
+
 	return e
 }
