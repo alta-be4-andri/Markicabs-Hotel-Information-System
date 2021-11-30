@@ -1,13 +1,13 @@
 package plugins
 
 import (
-	"os"
+	"project2/config"
 
 	"github.com/kelvins/geocoder"
 )
 
 func Geocode(city string) (float64, float64, error) {
-	geocoder.ApiKey = os.Getenv("API_KEY")
+	geocoder.ApiKey = config.API_KEY
 
 	var lng, lat float64
 	var address geocoder.Address

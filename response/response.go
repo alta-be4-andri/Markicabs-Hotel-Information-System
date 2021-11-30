@@ -94,3 +94,35 @@ func CheckSuccessResponse() map[string]interface{} {
 	}
 	return result
 }
+
+func PasswordCannotLess5() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "password cannot less than 5 character",
+	}
+	return result
+}
+
+func NameCannotEmpty() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "username cannot be empty",
+	}
+	return result
+}
+
+func EmailCannotEmpty() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "email cannot be empty",
+	}
+	return result
+}
+
+func IsExist() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "Email or Phone Number is Exist",
+	}
+	return result
+}

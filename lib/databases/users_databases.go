@@ -10,7 +10,7 @@ import (
 var user models.Users
 
 // function database untuk menambahkan user baru (registrasi)
-func CreateUser(user *models.Users) (*models.Users, error) {
+func CreateUser(user *models.Users) (interface{}, error) {
 	if err := config.DB.Create(&user).Error; err != nil {
 		return nil, err
 	}
@@ -47,6 +47,7 @@ func DeleteUser(id int) (interface{}, error) {
 
 // function database untuk melakukan login
 func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
+	user := models.Users{}
 	var err error
 	if err = config.DB.Where("email = ?", UserLogin.Email).First(&user).Error; err != nil {
 		return nil, err

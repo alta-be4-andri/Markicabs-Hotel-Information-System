@@ -14,14 +14,25 @@ import (
 var user models.Users
 
 func CreateUserControllers(c echo.Context) error {
-	c.Bind(&user)
+	user := models.Users{}
 	newPass, _ := plugins.Encrypt(user.Password)
 	user.Password = newPass
-	_, err := databases.CreateUser(&user)
-	if err != nil {
+	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-
+	if len(user.Password) < 5 {
+		return c.JSON(http.StatusBadRequest, response.PasswordCannotLess5())
+	}
+	if user.Nama == "" {
+		return c.JSON(http.StatusBadRequest, response.NameCannotEmpty())
+	}
+	if user.Email == "" {
+		return c.JSON(http.StatusBadRequest, response.EmailCannotEmpty())
+	}
+	_, err := databases.CreateUser(&user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response.IsExist())
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
 
