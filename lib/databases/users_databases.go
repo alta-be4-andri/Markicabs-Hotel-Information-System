@@ -10,7 +10,7 @@ import (
 var user models.Users
 
 // function database untuk menambahkan user baru (registrasi)
-func CreateUser(user *models.Users) (*models.Users, error) {
+func CreateUser(user *models.Users) (interface{}, error) {
 	if err := config.DB.Create(&user).Error; err != nil {
 		return nil, err
 	}
