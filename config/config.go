@@ -12,7 +12,7 @@ var DB *gorm.DB
 
 // inisialisasi database
 func InitDB() {
-	config := os.Getenv("CONNECTION_DB")
+	config := os.Getenv("CONNECTION_STRING")
 
 	var e error
 

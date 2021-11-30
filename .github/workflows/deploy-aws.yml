@@ -22,4 +22,4 @@ jobs:
           docker stop airbnb
           docker rm airbnb
           docker build -t airbnb-app:latest .
-          docker run -d -e "CONNECTION_STRING=admin:GampangBanget@tcp(db-airbnb-dylanripper.cfme3nloppwr.us-east-2.rds.amazonaws.com:3306)/db-airbnb-dylanripper?charset=utf8&parseTime=True&loc=Local" -p 80:8080 --name airbnb airbnb-app:latest
+          docker run -d -e "CONNECTION_STRING=admin:GampangBanget@tcp(db-airbnb-dylanripper.cfme3nloppwr.us-east-2.rds.amazonaws.com:3306)/db_airbnb?charset=utf8&parseTime=True&loc=Local" -p 80:8080 --name airbnb airbnb-app:latest
