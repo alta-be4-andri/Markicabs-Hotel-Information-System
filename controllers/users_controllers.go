@@ -14,7 +14,7 @@ import (
 var user models.Users
 
 func CreateUserControllers(c echo.Context) error {
-	// user := models.Users{}
+	user := models.Users{}
 	c.Bind(&user)
 	newPass, _ := plugins.Encrypt(user.Password)
 	user.Password = newPass
