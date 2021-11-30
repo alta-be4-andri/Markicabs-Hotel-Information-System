@@ -44,7 +44,7 @@ func RoomReservationCheck(c echo.Context) error {
 		input_checkout := input.Check_Out.Unix()
 		date_checkin := date.Check_In.Unix()
 		date_checkout := date.Check_Out.Unix()
-		if (input_checkin >= date_checkin && input_checkin <= date_checkout) || (input_checkout >= date_checkin && input_checkout <= date_checkout) {
+		if (input_checkin >= date_checkin && input_checkin <= date_checkout) || (input_checkout >= date_checkin && input_checkout <= date_checkout || input_checkin < time.Now().Unix() || input_checkout < time.Now().Unix()) {
 			return c.JSON(http.StatusBadRequest, response.CheckFailedResponse())
 		}
 	}
