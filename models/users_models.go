@@ -2,7 +2,6 @@ package models
 
 import "gorm.io/gorm"
 
-// struct user
 type Users struct {
 	gorm.Model
 	Nama         string        `gorm:"type:varchar(255)" json:"nama" form:"nama"`
