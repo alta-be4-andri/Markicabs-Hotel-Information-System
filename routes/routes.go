@@ -11,6 +11,7 @@ import (
 func New() *echo.Echo {
 
 	e := echo.New()
+	e.POST("/input", controllers.InputDataFasilitasCon)
 	e.POST("/users", controllers.CreateUserControllers)
 	e.POST("/login", controllers.LoginUsersController)
 	e.GET("/homestays", controllers.GetAllHomestayController)
@@ -37,8 +38,8 @@ func New() *echo.Echo {
 	// Room JWT
 	r.PUT("/rooms/:id", controllers.UpdateRoomController)
 	r.DELETE("/rooms/:id", controllers.DeleteRoomController)
-  
-  // Room Availability JWT
+
+	// Room Availability JWT
 	r.GET("/rooms/check/:id", controllers.RoomReservationCheck)
 
 	// Review JWT
