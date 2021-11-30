@@ -68,3 +68,13 @@ func LoginSuccessResponse(data interface{}) map[string]interface{} {
 	}
 	return result
 }
+
+// function response success dengan paramater
+func ReservationSuccessResponse(data interface{}) map[string]interface{} {
+	result := map[string]interface{}{
+		"code":           http.StatusOK,
+		"message":        "Successful Operation",
+		"reservation_id": data,
+	}
+	return result
+}
