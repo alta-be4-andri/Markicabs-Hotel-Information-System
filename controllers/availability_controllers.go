@@ -20,8 +20,6 @@ type InputDate struct {
 	Check_Out time.Time `json:"check_out" form:"check_out"`
 }
 
-var format_date string = "2006-01-02"
-
 // Fungsi untuk melakukan pengecekan availability suatu room
 func RoomReservationCheck(c echo.Context) error {
 	body := BodyDate{}
