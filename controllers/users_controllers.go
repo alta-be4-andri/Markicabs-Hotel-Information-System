@@ -22,7 +22,18 @@ func CreateUserControllers(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-
+	if len(user.Password) < 5 {
+		return c.JSON(http.StatusBadRequest, response.PasswordCannotLess5())
+	}
+	if user.Nama == "" {
+		return c.JSON(http.StatusBadRequest, response.NameCannotEmpty())
+	}
+	if user.Email == "" {
+		return c.JSON(http.StatusBadRequest, response.EmailCannotEmpty())
+	}
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response.InternalServerErrorResponse())
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
 
