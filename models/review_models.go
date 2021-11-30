@@ -9,3 +9,8 @@ type Review struct {
 	Comment       string `gorm:"type:longtext" json:"comment" form:"comment"`
 	HomeStayID    uint   `json:"homestay_id" form:"homestay_id"`
 }
+
+type Get_Review struct {
+	Rating  int
+	Comment string
+}
