@@ -13,7 +13,7 @@ type ReservationDate struct {
 // Fungsi untuk mendapatkan tanggal check_in dan check_out suatu reservasi
 func RoomReservationList(id int) ([]ReservationDate, error) {
 	var dates []ReservationDate
-	tx := config.DB.Table("reservations").Select("reservations.check_in, reservations.check_out").Where("reservations.rooms_id = ?", uint(id)).Find(&dates)
+	tx := config.DB.Table("reservations").Select("reservations.check_in, reservations.check_out").Where("reservations.rooms_id = ? AND reservations.check_out > ?", uint(id), time.Now()).Find(&dates)
 	if tx.Error != nil || tx.RowsAffected < 1 {
 		return nil, tx.Error
 	}
