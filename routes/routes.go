@@ -17,6 +17,7 @@ func New() *echo.Echo {
 	e.GET("/rooms", controllers.GetAllRoomsController)
 	e.GET("/rooms/homestays/:id", controllers.GetRoomByHomestayIdController)
 	e.GET("/rooms/:id", controllers.GetRoomByIdController)
+	e.GET("/reviews/:id", controllers.GetReviewsController)
 
 	// JWT Group
 	r := e.Group("/jwt")
@@ -36,9 +37,17 @@ func New() *echo.Echo {
 	// Room JWT
 	r.PUT("/rooms/:id", controllers.UpdateRoomController)
 	r.DELETE("/rooms/:id", controllers.DeleteRoomController)
-
-	// Room Availability JWT
+  
+  // Room Availability JWT
 	r.GET("/rooms/check/:id", controllers.RoomReservationCheck)
+
+	// Review JWT
+	r.POST("/reviews", controllers.AddReviewsController)
+
+	// Reservation JWT
+	r.POST("/reservations", controllers.CreateReservationControllers)
+	r.GET("/reservations/:id", controllers.GetReservationControllers)
+	r.DELETE("/reservations/:id", controllers.CancelReservationController)
 
 	return e
 }
