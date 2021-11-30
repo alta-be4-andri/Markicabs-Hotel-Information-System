@@ -42,7 +42,7 @@ func GetRoomByID(id int) (*models.FasilitasRoomResponse, error) {
 func GetFasilitasRoom(id int) ([]string, error) {
 	var results []string
 	tx := config.DB.Table("fasilitas_rooms").Select(
-		"fasilitas.nama_fasilitas").Joins("join fasilitas on fasilitas.id = fasilitas_rooms.fasilitas_id").Where("fasilitas_rooms.rooms_id = ? AND fasilitas.deleted_at IS NULL", id).Find(&results)
+		"fasilitas.nama_fasilitas").Joins("join fasilitas on fasilitas.id = fasilitas_rooms.fasilitas_id").Where("fasilitas_rooms.rooms_id = ?", id).Find(&results)
 	if tx.Error != nil || tx.RowsAffected < 1 {
 		return nil, tx.Error
 	}
