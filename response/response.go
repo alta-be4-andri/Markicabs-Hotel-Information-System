@@ -111,10 +111,10 @@ func EmailCannotEmpty() map[string]interface{} {
 	return result
 }
 
-func InternalServerErrorResponse() map[string]interface{} {
+func IsExist() map[string]interface{} {
 	result := map[string]interface{}{
-		"code":    http.StatusInternalServerError,
-		"message": "Internal Server Error",
+		"code":    http.StatusBadRequest,
+		"message": "Email or Phone Number is Exist",
 	}
 	return result
 }

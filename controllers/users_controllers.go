@@ -31,7 +31,7 @@ func CreateUserControllers(c echo.Context) error {
 	}
 	_, err := databases.CreateUser(&user)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.InternalServerErrorResponse())
+		return c.JSON(http.StatusInternalServerError, response.IsExist())
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
