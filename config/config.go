@@ -1,18 +1,26 @@
 package config
 
 import (
+	"log"
 	"os"
 	"project2/models"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
+var API_KEY string
 
 // inisialisasi database
 func InitDB() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	config := os.Getenv("CONNECTION_STRING")
+	API_KEY = os.Getenv("API_KEY")
 
 	var e error
 
