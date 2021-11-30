@@ -15,9 +15,9 @@ func CreateReservation(reservation *models.Reservation) (*models.Reservation, er
 	return reservation, nil
 }
 
-// Fungsi untuk menambahkan tanggal checkout pada reservasi yang dibuat
-func AddCheckOut(checkIn time.Time, night int, idReservation uint) {
-	config.DB.Exec("UPDATE reservations SET check_out = (SELECT DATE_ADD(?, INTERVAL ? DAY)) WHERE id = ?", checkIn, night, idReservation)
+// Fungsi untuk mendapatkan jumlah malam pada reservasi
+func AddJumlahMalam(checkIn time.Time, checkOut time.Time, idReservation uint) {
+	config.DB.Exec("UPDATE reservations SET jumlah_malam = (SELECT DATEDIFF(?, ?)) WHERE id = ?", checkOut, checkIn, idReservation)
 }
 
 // Fungsi untuk menambahkan harga pada reservasi

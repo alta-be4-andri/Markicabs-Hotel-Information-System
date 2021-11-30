@@ -20,7 +20,7 @@ func CreateReservationControllers(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-	databases.AddCheckOut(input.Check_In, input.Jumlah_Malam, reservation.ID)
+	databases.AddJumlahMalam(input.Check_In, input.Check_Out, reservation.ID)
 	databases.AddHargaToReservation(input.RoomsID, reservation.ID)
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
@@ -55,6 +55,6 @@ func CancelReservationController(c echo.Context) error {
 	if uint(logged) != userId {
 		return c.JSON(http.StatusBadRequest, response.AccessForbiddenResponse())
 	}
-	databases.DeleteRoom(id)
+	databases.CancelReservation(id)
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
