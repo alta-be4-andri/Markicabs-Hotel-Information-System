@@ -15,7 +15,7 @@ func InsertPhoto(photo *models.Photo) (interface{}, error) {
 func GetAllPhoto() (interface{}, error) {
 	var photo models.Photo
 	var result []models.Get_Photo
-	if err := config.DB.Model(&photo).Find(&result).Error; err != nil {
+	if err := config.DB.Model(&photo).Where("rooms_id = ?", photo.RoomsID).Find(&result).Error; err != nil {
 		return nil, err
 	}
 	return result, nil

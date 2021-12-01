@@ -56,20 +56,6 @@ func GetAllPhotoController(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.SuccessResponseData(photo))
 }
 
-func UpdatePhotoController(c echo.Context) error {
-	var photo models.Photo
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
-	}
-	c.Bind(&homestay)
-	_, err = databases.UpdatePhoto(id, &photo)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
-	}
-	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
-}
-
 func DeletePhotoController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
