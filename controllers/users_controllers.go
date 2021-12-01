@@ -7,6 +7,7 @@ import (
 	"project2/models"
 	"project2/plugins"
 	"project2/response"
+	"regexp"
 
 	"github.com/labstack/echo/v4"
 )
@@ -23,15 +24,20 @@ func CreateUserControllers(c echo.Context) error {
 	}
 	newPass, _ := plugins.Encrypt(user.Password)
 	user.Password = newPass
+	_, err := databases.CreateUser(&user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response.IsExist())
+	}
 	if user.Nama == "" {
 		return c.JSON(http.StatusBadRequest, response.NameCannotEmpty())
 	}
 	if user.Email == "" {
 		return c.JSON(http.StatusBadRequest, response.EmailCannotEmpty())
 	}
-	_, err := databases.CreateUser(&user)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.IsExist())
+	pattern := `^\w+@\w+\.\w+$`
+	matched, _ := regexp.Match(pattern, []byte(user.Email))
+	if !matched {
+		return c.JSON(http.StatusBadRequest, response.FormatEmailInvalid())
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }

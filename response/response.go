@@ -128,3 +128,11 @@ func IsExist() map[string]interface{} {
 	}
 	return result
 }
+
+func FormatEmailInvalid() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "Email must contain email format",
+	}
+	return result
+}
