@@ -15,11 +15,11 @@ var user models.Users
 
 func CreateUserControllers(c echo.Context) error {
 	user := models.Users{}
-	newPass, _ := plugins.Encrypt(user.Password)
-	user.Password = newPass
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
+	newPass, _ := plugins.Encrypt(user.Password)
+	user.Password = newPass
 	if len(user.Password) < 5 {
 		return c.JSON(http.StatusBadRequest, response.PasswordCannotLess5())
 	}
