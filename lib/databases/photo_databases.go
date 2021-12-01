@@ -21,13 +21,6 @@ func GetAllPhoto() (interface{}, error) {
 	return result, nil
 }
 
-func UpdatePhoto(id int, photo *models.Photo) (interface{}, error) {
-	if err := config.DB.Where("id = ?", id).Updates(&photo).Error; err != nil {
-		return nil, err
-	}
-	return photo, nil
-}
-
 func DeletePhoto(id int) (interface{}, error) {
 	var photo models.Photo
 	if err := config.DB.Where("id = ?", id).Delete(&photo).Error; err != nil {
