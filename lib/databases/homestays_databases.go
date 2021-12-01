@@ -48,7 +48,6 @@ func DeleteHomestays(id int) (interface{}, error) {
 	return homestay, nil
 }
 
-// function bantuan untuk mendapatkan id user pada tabel produk
 func GetIDUserHomestay(id int) (uint, error) {
 	err := config.DB.Find(&homestay, id)
 	if err.Error != nil {

@@ -28,3 +28,12 @@ func DeletePhoto(id int) (interface{}, error) {
 	}
 	return photo, nil
 }
+
+func GetIDRoomsPhoto(id int) (uint, error) {
+	var photo models.Photo
+	err := config.DB.Find(&photo, id)
+	if err.Error != nil {
+		return 0, err.Error
+	}
+	return uint(photo.RoomsID), nil
+}
