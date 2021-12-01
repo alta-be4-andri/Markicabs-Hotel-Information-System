@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"os"
 	"project2/lib/databases"
 	"project2/middlewares"
 	"project2/models"
@@ -24,10 +25,6 @@ func CreateUserControllers(c echo.Context) error {
 	}
 	newPass, _ := plugins.Encrypt(user.Password)
 	user.Password = newPass
-	_, err := databases.CreateUser(&user)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.IsExist())
-	}
 	if user.Nama == "" {
 		return c.JSON(http.StatusBadRequest, response.NameCannotEmpty())
 	}
@@ -35,9 +32,17 @@ func CreateUserControllers(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, response.EmailCannotEmpty())
 	}
 	pattern := `^\w+@\w+\.\w+$`
-	matched, _ := regexp.Match(pattern, []byte(user.Email))
+	matched, tx := regexp.Match(pattern, []byte(user.Email))
+	if tx != nil {
+		os.Exit(1)
+		return c.JSON(http.StatusBadRequest, response.FormatEmailInvalid())
+	}
 	if !matched {
 		return c.JSON(http.StatusBadRequest, response.FormatEmailInvalid())
+	}
+	_, err := databases.CreateUser(&user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response.IsExist())
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponseNonData())
 }
