@@ -18,11 +18,11 @@ func CreateUserControllers(c echo.Context) error {
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-	newPass, _ := plugins.Encrypt(user.Password)
-	user.Password = newPass
 	if len(user.Password) < 5 {
 		return c.JSON(http.StatusBadRequest, response.PasswordCannotLess5())
 	}
+	newPass, _ := plugins.Encrypt(user.Password)
+	user.Password = newPass
 	if user.Nama == "" {
 		return c.JSON(http.StatusBadRequest, response.NameCannotEmpty())
 	}
