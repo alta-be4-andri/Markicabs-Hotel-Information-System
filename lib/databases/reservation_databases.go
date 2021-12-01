@@ -15,9 +15,9 @@ func CreateReservation(reservation *models.Reservation) (*models.Reservation, er
 	return reservation, nil
 }
 
-// Fungsi untuk menambahkan tanggal checkout pada reservasi yang dibuat
-func AddCheckOut(checkIn time.Time, night int, idReservation uint) {
-	config.DB.Exec("UPDATE reservations SET check_out = (SELECT DATE_ADD(?, INTERVAL ? DAY)) WHERE id = ?", checkIn, night, idReservation)
+// Fungsi untuk mendapatkan jumlah malam pada reservasi
+func AddJumlahMalam(checkIn time.Time, checkOut time.Time, idReservation uint) {
+	config.DB.Exec("UPDATE reservations SET jumlah_malam = (SELECT DATEDIFF(?, ?)) WHERE id = ?", checkOut, checkIn, idReservation)
 }
 
 // Fungsi untuk menambahkan harga pada reservasi
@@ -26,13 +26,13 @@ func AddHargaToReservation(idRoom, idReservation uint) {
 }
 
 // Fungsi untuk mendapatkan reservasi by reservasi id
-func GetReservation(id int) (interface{}, error) {
+func GetReservation(id int) (*models.Reservation, error) {
 	var reservation models.Reservation
 	tx := config.DB.Where("id = ?", id).Find(&reservation)
 	if tx.Error != nil || tx.RowsAffected < 1 {
 		return nil, tx.Error
 	}
-	return reservation, nil
+	return &reservation, nil
 }
 
 // Fungsi untuk mendapatkan reservasi owner

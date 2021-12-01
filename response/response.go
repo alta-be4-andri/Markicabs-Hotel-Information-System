@@ -69,6 +69,16 @@ func LoginSuccessResponse(data interface{}) map[string]interface{} {
 	return result
 }
 
+// function response success dengan paramater
+func ReservationSuccessResponse(data interface{}) map[string]interface{} {
+	result := map[string]interface{}{
+		"code":           http.StatusOK,
+		"message":        "Successful Operation",
+		"reservation_id": data,
+	}
+	return result
+}
+
 // function response check room availability failed
 func CheckFailedResponse() map[string]interface{} {
 	result := map[string]interface{}{
@@ -83,6 +93,38 @@ func CheckSuccessResponse() map[string]interface{} {
 	result := map[string]interface{}{
 		"code":    http.StatusOK,
 		"message": "Room available",
+	}
+	return result
+}
+
+func PasswordCannotLess5() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "password cannot less than 5 character",
+	}
+	return result
+}
+
+func NameCannotEmpty() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "username cannot be empty",
+	}
+	return result
+}
+
+func EmailCannotEmpty() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "email cannot be empty",
+	}
+	return result
+}
+
+func IsExist() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "Email or Phone Number is Exist",
 	}
 	return result
 }

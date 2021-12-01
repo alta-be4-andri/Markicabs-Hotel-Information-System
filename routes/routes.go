@@ -1,16 +1,22 @@
 package routes
 
 import (
+	"net/http"
 	"project2/constant"
 	"project2/controllers"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	echoMid "github.com/labstack/echo/v4/middleware"
 )
 
 func New() *echo.Echo {
 
 	e := echo.New()
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
+	}))
 	e.POST("/input", controllers.InputDataFasilitasCon)
 	e.POST("/users", controllers.CreateUserControllers)
 	e.POST("/login", controllers.LoginUsersController)
