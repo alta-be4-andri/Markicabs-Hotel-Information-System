@@ -11,6 +11,7 @@ type Review struct {
 }
 
 type Get_Review struct {
+	ID      uint
 	Rating  int
 	Comment string
 }

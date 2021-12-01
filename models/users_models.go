@@ -18,7 +18,7 @@ type Get_User struct {
 	Nama         string
 	Email        string
 	Phone_Number string
-	Token        string `gorm:"type:longtext" json:"token" form:"token"`
+	Token        string
 }
 
 type UserLogin struct {

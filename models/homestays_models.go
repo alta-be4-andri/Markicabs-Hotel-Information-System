@@ -16,6 +16,7 @@ type HomeStay struct {
 }
 
 type Get_HomeStay struct {
+	ID        uint
 	Nama      string
 	Longitude float64
 	Latitude  float64
