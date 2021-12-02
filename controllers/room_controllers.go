@@ -13,7 +13,7 @@ import (
 
 func GetAllRoomsController(c echo.Context) error {
 	room, err := databases.GetAllRooms()
-	if err != nil {
+	if err != nil || room == nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponseData(room))
