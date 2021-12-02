@@ -5,6 +5,33 @@ import (
 	"project2/models"
 )
 
+// Fungsi untuk membuat tempat room baru
+func CreateRoom(room *models.BodyRoom) (*models.Rooms, error) {
+	input := models.Rooms{
+		Nama_Room:      room.Nama_Room,
+		HomeStayID:     room.HomeStayID,
+		Total_Penghuni: room.Total_Penghuni,
+		Harga:          room.Harga,
+		Deskripsi:      room.Deskripsi,
+	}
+	if err := config.DB.Create(&input).Error; err != nil {
+		return nil, err
+	}
+	return &input, nil
+}
+
+// Fungsi untuk memasukkan fasilitas di room
+func CreateRoomFasilitas(idRoom uint, idFasilitas int) (interface{}, error) {
+	input := models.FasilitasRoom{
+		RoomsID:     idRoom,
+		FasilitasID: uint(idFasilitas),
+	}
+	if err := config.DB.Create(&input).Error; err != nil {
+		return nil, err
+	}
+	return input, nil
+}
+
 //Fungsi untuk mendapatkan semua room
 func GetAllRooms() (interface{}, error) {
 	var results []models.AllRoomsResponse
@@ -31,7 +58,7 @@ func GetRoomByHomestayID(id int) (interface{}, error) {
 func GetRoomByID(id int) (*models.FasilitasRoomResponse, error) {
 	var results models.FasilitasRoomResponse
 	tx := config.DB.Table("rooms").Select(
-		"rooms.id, rooms.home_stay_id,rooms.nama_room,rooms.total_penghuni, rooms.harga, rooms.deskripsi").Where("rooms.id = ? AND rooms.deleted_at IS NULL", id).Find(&results)
+		"rooms.id,rooms.nama_room, rooms.home_stay_id,rooms.total_penghuni, rooms.harga, rooms.deskripsi").Where("rooms.id = ? AND rooms.deleted_at IS NULL", id).Find(&results)
 	if tx.Error != nil || tx.RowsAffected < 1 {
 		return nil, tx.Error
 	}

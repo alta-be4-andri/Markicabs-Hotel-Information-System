@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"project2/lib/databases"
@@ -57,8 +58,10 @@ func GetUserControllers(c echo.Context) error {
 }
 
 func UpdateUserControllers(c echo.Context) error {
+	user := models.Users{}
 	id := middlewares.ExtractTokenUserId(c)
 	c.Bind(&user)
+	fmt.Println("ini update user:", user)
 	_, err := databases.UpdateUser(id, &user)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
