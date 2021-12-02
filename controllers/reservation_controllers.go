@@ -25,7 +25,13 @@ func CreateReservationControllers(c echo.Context) error {
 	input.Check_Out, _ = time.Parse(format_date, body.Check_Out)
 	input.UsersID = uint(logged)
 	input.RoomsID = body.RoomsID
-	input.KartuKreditID = body.KartuKreditID
+
+	kartuKredit, err := databases.CreateKartuKredit(&body.KartuKredit)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
+	}
+
+	input.KartuKreditID = kartuKredit.ID
 
 	reservation, err := databases.CreateReservation(&input)
 	if err != nil {
