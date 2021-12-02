@@ -77,11 +77,13 @@ func DeleteUserControllers(c echo.Context) error {
 
 //login users
 func LoginUsersController(c echo.Context) error {
-	login := models.UserLogin{}
-	c.Bind(&login)
-	users, err := databases.LoginUser(login)
-	if err != nil {
+	var login models.Users
+	if err := c.Bind(&login); err != nil {
+		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
+	}
+	user, err := databases.GetUserByEmail(login)
+	if err != nil || user == nil {
 		return c.JSON(http.StatusBadRequest, response.LoginFailedResponse())
 	}
-	return c.JSON(http.StatusOK, response.LoginSuccessResponse(users))
+	return c.JSON(http.StatusOK, response.LoginSuccessResponse(login))
 }
