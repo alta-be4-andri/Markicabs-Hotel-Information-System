@@ -14,8 +14,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-var user models.Users
-
 func CreateUserControllers(c echo.Context) error {
 	user := models.Users{}
 	if err := c.Bind(&user); err != nil {
