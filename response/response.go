@@ -54,7 +54,7 @@ func SuccessResponseNonData() map[string]interface{} {
 func LoginFailedResponse() map[string]interface{} {
 	result := map[string]interface{}{
 		"code":    http.StatusBadRequest,
-		"message": "Login Failed",
+		"message": "Email or Password Invalid",
 	}
 	return result
 }

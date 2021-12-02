@@ -55,7 +55,7 @@ func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
 
 	check := plugins.Decrypt(user.Password, UserLogin.Password)
 	if !check {
-		return nil, nil
+		return 0, nil
 	}
 
 	user.Token, err = middlewares.CreateToken(int(user.ID))

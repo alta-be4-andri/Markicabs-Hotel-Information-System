@@ -80,8 +80,9 @@ func LoginUsersController(c echo.Context) error {
 	user := models.UserLogin{}
 	c.Bind(&user)
 	users, err := databases.LoginUser(user)
-	if err != nil {
+	if err != nil || users == 0 {
 		return c.JSON(http.StatusBadRequest, response.LoginFailedResponse())
 	}
+
 	return c.JSON(http.StatusOK, response.LoginSuccessResponse(users))
 }
