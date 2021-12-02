@@ -15,6 +15,9 @@ func CreateRoomController(c echo.Context) error {
 	body := models.BodyRoom{}
 	c.Bind(&body)
 	idHomestay, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
+	}
 	body.HomeStayID = uint(idHomestay)
 	room, err := databases.CreateRoom(&body)
 	if err != nil {
