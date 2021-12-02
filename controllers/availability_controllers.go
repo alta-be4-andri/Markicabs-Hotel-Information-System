@@ -30,7 +30,7 @@ func RoomReservationCheck(c echo.Context) error {
 	}
 	// Mendapatkan seluruh tanggal reservation room tertentu
 	dateList, err := databases.RoomReservationList(id)
-	if err != nil || dateList == nil {
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
 
@@ -38,13 +38,13 @@ func RoomReservationCheck(c echo.Context) error {
 	input.Check_In, _ = time.Parse(format_date, body.Check_In)
 	input.Check_Out, _ = time.Parse(format_date, body.Check_Out)
 
+	if input.Check_In.Unix() < time.Now().Unix() || input.Check_Out.Unix() < time.Now().Unix() {
+		return c.JSON(http.StatusBadRequest, response.CheckFailedResponse())
+	}
+
 	// Pengecekan ketersediaan room untuk tanggal check_in dan check_out yang diinginkan
 	for _, date := range dateList {
-		input_checkin := input.Check_In.Unix()
-		input_checkout := input.Check_Out.Unix()
-		date_checkin := date.Check_In.Unix()
-		date_checkout := date.Check_Out.Unix()
-		if (input_checkin >= date_checkin && input_checkin <= date_checkout) || (input_checkout >= date_checkin && input_checkout <= date_checkout || input_checkin < time.Now().Unix() || input_checkout < time.Now().Unix()) {
+		if (input.Check_In.Unix() >= date.Check_In.Unix() && input.Check_In.Unix() <= date.Check_Out.Unix()) || (input.Check_Out.Unix() >= date.Check_In.Unix() && input.Check_Out.Unix() <= date.Check_Out.Unix()) {
 			return c.JSON(http.StatusBadRequest, response.CheckFailedResponse())
 		}
 	}

@@ -2,11 +2,13 @@ package controllers
 
 import (
 	"net/http"
+	"os"
 	"project2/lib/databases"
 	"project2/middlewares"
 	"project2/models"
 	"project2/plugins"
 	"project2/response"
+	"regexp"
 
 	"github.com/labstack/echo/v4"
 )
@@ -28,6 +30,15 @@ func CreateUserControllers(c echo.Context) error {
 	}
 	if user.Email == "" {
 		return c.JSON(http.StatusBadRequest, response.EmailCannotEmpty())
+	}
+	pattern := `^\w+@\w+\.\w+$`
+	matched, tx := regexp.Match(pattern, []byte(user.Email))
+	if tx != nil {
+		os.Exit(1)
+		return c.JSON(http.StatusBadRequest, response.FormatEmailInvalid())
+	}
+	if !matched {
+		return c.JSON(http.StatusBadRequest, response.FormatEmailInvalid())
 	}
 	_, err := databases.CreateUser(&user)
 	if err != nil {
@@ -69,8 +80,9 @@ func LoginUsersController(c echo.Context) error {
 	user := models.UserLogin{}
 	c.Bind(&user)
 	users, err := databases.LoginUser(user)
-	if err != nil {
+	if err != nil || users == 0 {
 		return c.JSON(http.StatusBadRequest, response.LoginFailedResponse())
 	}
+
 	return c.JSON(http.StatusOK, response.LoginSuccessResponse(users))
 }

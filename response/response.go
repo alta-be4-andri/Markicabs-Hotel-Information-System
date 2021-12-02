@@ -54,7 +54,7 @@ func SuccessResponseNonData() map[string]interface{} {
 func LoginFailedResponse() map[string]interface{} {
 	result := map[string]interface{}{
 		"code":    http.StatusBadRequest,
-		"message": "Login Failed",
+		"message": "Email or Password Invalid",
 	}
 	return result
 }
@@ -123,8 +123,16 @@ func EmailCannotEmpty() map[string]interface{} {
 
 func IsExist() map[string]interface{} {
 	result := map[string]interface{}{
-		"code":    http.StatusBadRequest,
+		"code":    http.StatusInternalServerError,
 		"message": "Email or Phone Number is Exist",
+	}
+	return result
+}
+
+func FormatEmailInvalid() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "Email must contain email format",
 	}
 	return result
 }

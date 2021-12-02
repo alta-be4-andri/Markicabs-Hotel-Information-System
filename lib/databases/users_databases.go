@@ -28,6 +28,19 @@ func GetUser(id int) (interface{}, error) {
 	return result, nil
 }
 
+func GetUserByEmail(loginuser models.Users) (*models.Users, error) {
+	user := models.Users{}
+	tx := config.DB.Where("email=?", loginuser.Email).First(&user)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	checkpass := plugins.Decrypt(loginuser.Password, user.Password)
+	if !checkpass {
+		return nil, nil
+	}
+	return &user, nil
+}
+
 // function database untuk memperbarui data user by id
 func UpdateUser(id int, user *models.Users) (interface{}, error) {
 	if err := config.DB.Where("id = ?", id).Updates(&user).Error; err != nil {
@@ -56,7 +69,7 @@ func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
 
 	check := plugins.Decrypt(user.Password, UserLogin.Password)
 	if !check {
-		return nil, nil
+		return 0, nil
 	}
 
 	user.Token, err = middlewares.CreateToken(int(user.ID))

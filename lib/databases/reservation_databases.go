@@ -53,3 +53,12 @@ func CancelReservation(id int) (interface{}, error) {
 	}
 	return "deleted", nil
 }
+
+// Fungsi untuk membuat kartu kredit baru baru
+func CreateKartuKredit(kartuKredit *models.KartuKredit) (*models.KartuKredit, error) {
+	tx := config.DB.Create(&kartuKredit)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return kartuKredit, nil
+}

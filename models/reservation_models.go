@@ -20,10 +20,10 @@ type Reservation struct {
 
 // Struct untuk body create reservation
 type ReservationBody struct {
-	RoomsID       uint   `json:"rooms_id" form:"rooms_id"`
-	Check_In      string `gorm:"type:datetime;not null" json:"check_in" form:"check_in"`
-	Check_Out     string `gorm:"type:datetime" json:"check_out" form:"check_out"`
-	KartuKreditID uint   `gorm:"default:0" json:"kartu_kredit_id" form:"kartu_kredit_id"`
+	RoomsID     uint        `json:"rooms_id" form:"rooms_id"`
+	Check_In    string      `gorm:"type:datetime;not null" json:"check_in" form:"check_in"`
+	Check_Out   string      `gorm:"type:datetime" json:"check_out" form:"check_out"`
+	KartuKredit KartuKredit `json:"kartu_kredit" form:"kartu_kredit"`
 }
 
 // Struct response data untuk get reservation
