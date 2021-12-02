@@ -6,20 +6,19 @@ import (
 	"project2/controllers"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 	echoMid "github.com/labstack/echo/v4/middleware"
 )
 
 func New() *echo.Echo {
 
 	e := echo.New()
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+	e.Use(echoMid.CORSWithConfig(echoMid.CORSConfig{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
 	}))
 	e.POST("/input", controllers.InputDataFasilitasCon)
-	e.POST("/users", controllers.CreateUserControllers)
-	e.POST("/login", controllers.LoginUsersController)
+	e.POST("/signup", controllers.CreateUserControllers)
+	e.POST("/signin", controllers.LoginUsersController)
 	e.GET("/homestays", controllers.GetAllHomestayController)
 	e.GET("/rooms", controllers.GetAllRoomsController)
 	e.GET("/rooms/homestays/:id", controllers.GetRoomByHomestayIdController)
@@ -44,6 +43,9 @@ func New() *echo.Echo {
 	// Room JWT
 	r.PUT("/rooms/:id", controllers.UpdateRoomController)
 	r.DELETE("/rooms/:id", controllers.DeleteRoomController)
+	r.POST("/rooms", controllers.InsertPhotoController)
+	r.GET("/rooms", controllers.GetAllPhotoController)
+	r.GET("/rooms/:id", controllers.DeletePhotoController)
 	r.POST("/rooms/upload", controllers.PhotoControllers)
 
 	// Room Availability JWT

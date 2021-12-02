@@ -47,6 +47,7 @@ func DeleteUser(id int) (interface{}, error) {
 
 // function database untuk melakukan login
 func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
+	result := models.Get_User{}
 	user := models.Users{}
 	var err error
 	if err = config.DB.Where("email = ?", UserLogin.Email).First(&user).Error; err != nil {
@@ -65,5 +66,6 @@ func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
 	if err := config.DB.Save(&user).Error; err != nil {
 		return nil, err
 	}
-	return user.Token, nil
+	config.DB.Model(user).First(&result)
+	return result, nil
 }
