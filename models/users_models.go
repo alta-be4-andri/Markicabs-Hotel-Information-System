@@ -15,6 +15,7 @@ type Users struct {
 }
 
 type Get_User struct {
+	ID           uint
 	Nama         string
 	Email        string
 	Phone_Number string

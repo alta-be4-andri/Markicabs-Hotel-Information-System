@@ -63,7 +63,7 @@ func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
 	result := models.Get_User{}
 	user := models.Users{}
 	var err error
-	if err = config.DB.Where("email = ?", UserLogin.Email).First(&user).Error; err != nil {
+	if err = config.DB.Where("email = ?", UserLogin.Email).Find(&user).Error; err != nil {
 		return nil, err
 	}
 
@@ -79,6 +79,6 @@ func LoginUser(UserLogin models.UserLogin) (interface{}, error) {
 	if err := config.DB.Save(&user).Error; err != nil {
 		return nil, err
 	}
-	config.DB.Model(user).First(&result)
+	config.DB.Model(user).Find(&result, user)
 	return result, nil
 }
