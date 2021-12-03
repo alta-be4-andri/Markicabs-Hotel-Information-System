@@ -21,6 +21,7 @@ func New() *echo.Echo {
 	e.POST("/signin", controllers.LoginUsersController)
 	e.GET("/homestays", controllers.GetAllHomestayController)
 	e.GET("/homestays/:id", controllers.GetHomestayByIDController)
+	e.GET("/homestays/kota/:id", controllers.GetHomestayByKotaIdController)
 	e.GET("/rooms", controllers.GetAllRoomsController)
 	e.GET("/rooms/homestays/:id", controllers.GetRoomByHomestayIdController)
 	e.GET("/rooms/:id", controllers.GetRoomByIdController)

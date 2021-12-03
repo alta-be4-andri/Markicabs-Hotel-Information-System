@@ -48,5 +48,5 @@ func RoomReservationCheck(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, response.CheckFailedResponse())
 		}
 	}
-	return c.JSON(http.StatusBadRequest, response.CheckSuccessResponse())
+	return c.JSON(http.StatusOK, response.CheckSuccessResponse())
 }

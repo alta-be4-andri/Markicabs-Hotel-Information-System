@@ -136,3 +136,12 @@ func FormatEmailInvalid() map[string]interface{} {
 	}
 	return result
 }
+
+// function response check room availability failed
+func HomestayNotFoundResponse() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "Homestay not found",
+	}
+	return result
+}
