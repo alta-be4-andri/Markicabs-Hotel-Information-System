@@ -20,6 +20,7 @@ func New() *echo.Echo {
 	e.POST("/signup", controllers.CreateUserControllers)
 	e.POST("/signin", controllers.LoginUsersController)
 	e.GET("/homestays", controllers.GetAllHomestayController)
+	e.GET("/homestays/:id", controllers.GetHomestayByIDController)
 	e.GET("/rooms", controllers.GetAllRoomsController)
 	e.GET("/rooms/homestays/:id", controllers.GetRoomByHomestayIdController)
 	e.GET("/rooms/:id", controllers.GetRoomByIdController)
@@ -36,11 +37,11 @@ func New() *echo.Echo {
 
 	// Homestay JWT
 	r.POST("/homestays", controllers.CreateHomestayController)
-	r.GET("/homestays/:id", controllers.GetHomestayByIDController)
 	r.PUT("/homestays/:id", controllers.UpdateHomestayController)
 	r.DELETE("/homestays/:id", controllers.DeleteHomestayController)
 
 	// Room JWT
+	r.POST("/rooms/:id", controllers.CreateRoomController)
 	r.PUT("/rooms/:id", controllers.UpdateRoomController)
 	r.DELETE("/rooms/:id", controllers.DeleteRoomController)
 	r.POST("/rooms", controllers.InsertPhotoController)

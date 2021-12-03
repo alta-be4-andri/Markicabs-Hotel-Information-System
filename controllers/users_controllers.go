@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"project2/lib/databases"
@@ -12,8 +13,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 )
-
-var user models.Users
 
 func CreateUserControllers(c echo.Context) error {
 	user := models.Users{}
@@ -57,8 +56,10 @@ func GetUserControllers(c echo.Context) error {
 }
 
 func UpdateUserControllers(c echo.Context) error {
+	user := models.Users{}
 	id := middlewares.ExtractTokenUserId(c)
 	c.Bind(&user)
+	fmt.Println("ini update user:", user)
 	_, err := databases.UpdateUser(id, &user)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
