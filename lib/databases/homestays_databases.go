@@ -19,7 +19,7 @@ func CreateHomestay(homestay *models.HomeStay) (*models.HomeStay, error) {
 func GetAllHomestays() (interface{}, error) {
 	var results []models.Get_HomeStay
 	var homestays []models.HomeStay
-	if err := config.DB.Model(homestays).Find(&results).Error; err != nil {
+	if err := config.DB.Model(homestays).Where("deleted_at IS NULL").Find(&results).Error; err != nil {
 		return nil, err
 	}
 	return results, nil
@@ -30,6 +30,18 @@ func GetHomestaysByID(id int) (interface{}, error) {
 	rows_affected := err.RowsAffected
 	if err.Error != nil || rows_affected < 1 {
 		return nil, err.Error
+	}
+	return result, nil
+}
+
+func GetHomestaysByKotaId(id int) (interface{}, error) {
+	var result []models.Get_HomeStay
+	err := config.DB.Table("home_stays").Where("kota_id = ? AND home_stays.deleted_at IS NULL", id).Find(&result)
+	if err.Error != nil {
+		return nil, err.Error
+	}
+	if err.RowsAffected < 1 {
+		return nil, nil
 	}
 	return result, nil
 }
