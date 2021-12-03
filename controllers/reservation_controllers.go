@@ -23,21 +23,27 @@ func CreateReservationControllers(c echo.Context) error {
 	input := models.Reservation{}
 	input.Check_In, _ = time.Parse(format_date, body.Check_In)
 	input.Check_Out, _ = time.Parse(format_date, body.Check_Out)
+	if input.Check_In.Unix() > input.Check_Out.Unix() {
+		return c.JSON(http.StatusBadRequest, response.DateInvalidResponse())
+	}
 	input.UsersID = uint(logged)
 	input.RoomsID = body.RoomsID
-
+	roomOwner, err := databases.GetRoomOwner(int(input.RoomsID))
+	if err != nil || roomOwner == 0 {
+		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
+	}
+	if roomOwner == input.UsersID {
+		return c.JSON(http.StatusBadRequest, response.AccessForbiddenResponse())
+	}
 	kartuKredit, err := databases.CreateKartuKredit(&body.KartuKredit)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-
 	input.KartuKreditID = kartuKredit.ID
-
 	reservation, err := databases.CreateReservation(&input)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-
 	databases.AddJumlahMalam(input.Check_In, input.Check_Out, reservation.ID)
 	databases.AddHargaToReservation(input.RoomsID, reservation.ID)
 	return c.JSON(http.StatusOK, response.ReservationSuccessResponse(reservation.ID))

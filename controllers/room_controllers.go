@@ -31,8 +31,11 @@ func CreateRoomController(c echo.Context) error {
 
 func GetAllRoomsController(c echo.Context) error {
 	room, err := databases.GetAllRooms()
-	if err != nil || room == nil {
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
+	}
+	if room == nil {
+		return c.JSON(http.StatusBadRequest, response.RoomNotFoundResponse())
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponseData(room))
 }
@@ -43,8 +46,11 @@ func GetRoomByHomestayIdController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
 	}
 	room, err := databases.GetRoomByHomestayID(id)
-	if err != nil || room == nil {
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
+	}
+	if room == nil {
+		return c.JSON(http.StatusBadRequest, response.RoomNotFoundResponse())
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponseData(room))
 }
@@ -55,8 +61,11 @@ func GetRoomByIdController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
 	}
 	room, err := databases.GetRoomByID(id)
-	if err != nil || room == nil {
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
+	}
+	if room == nil {
+		return c.JSON(http.StatusBadRequest, response.RoomNotFoundResponse())
 	}
 	room.Fasilitas, _ = databases.GetFasilitasRoom(id)
 	return c.JSON(http.StatusOK, response.SuccessResponseData(room))

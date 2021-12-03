@@ -73,7 +73,7 @@ func LoginSuccessResponse(data interface{}) map[string]interface{} {
 func ReservationSuccessResponse(data interface{}) map[string]interface{} {
 	result := map[string]interface{}{
 		"code":           http.StatusOK,
-		"message":        "Successful Operation",
+		"message":        "Your Resevation Success",
 		"reservation_id": data,
 	}
 	return result
@@ -137,11 +137,29 @@ func FormatEmailInvalid() map[string]interface{} {
 	return result
 }
 
-// function response check room availability failed
+// function response homestay not found
 func HomestayNotFoundResponse() map[string]interface{} {
 	result := map[string]interface{}{
 		"code":    http.StatusBadRequest,
 		"message": "Homestay not found",
+	}
+	return result
+}
+
+// function response room not found
+func RoomNotFoundResponse() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "Room not found",
+	}
+	return result
+}
+
+// function response for date invalid, if check out date earlier than check in
+func DateInvalidResponse() map[string]interface{} {
+	result := map[string]interface{}{
+		"code":    http.StatusBadRequest,
+		"message": "Check In and Check Out Date Invalid",
 	}
 	return result
 }

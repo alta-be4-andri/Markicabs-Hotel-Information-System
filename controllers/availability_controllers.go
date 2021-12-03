@@ -41,6 +41,9 @@ func RoomReservationCheck(c echo.Context) error {
 	if input.Check_In.Unix() < time.Now().Unix() || input.Check_Out.Unix() < time.Now().Unix() {
 		return c.JSON(http.StatusBadRequest, response.CheckFailedResponse())
 	}
+	if input.Check_In.Unix() > input.Check_Out.Unix() {
+		return c.JSON(http.StatusBadRequest, response.DateInvalidResponse())
+	}
 
 	// Pengecekan ketersediaan room untuk tanggal check_in dan check_out yang diinginkan
 	for _, date := range dateList {

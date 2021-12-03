@@ -19,3 +19,18 @@ func RoomReservationList(id int) ([]ReservationDate, error) {
 	}
 	return dates, nil
 }
+
+// Fungsi untuk mendapatkan jumlah malam pada reservasi
+func HitungJumlahMalam(checkIn time.Time, checkOut time.Time, idReservation uint) {
+	config.DB.Exec("UPDATE reservations SET jumlah_malam = (SELECT DATEDIFF(?, ?)) WHERE id = ?", checkOut, checkIn, idReservation)
+}
+
+// Fungsi untuk menambahkan harga pada reservasi
+func GetHargaRoom(idRoom int) (int, error) {
+	var harga int
+	tx := config.DB.Raw("SELECT harga FROM rooms WHERE id = ?", idRoom).Scan(&harga)
+	if tx.Error != nil || tx.RowsAffected < 1 {
+		return 0, tx.Error
+	}
+	return harga, nil
+}
