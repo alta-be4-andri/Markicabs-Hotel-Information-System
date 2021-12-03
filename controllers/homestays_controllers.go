@@ -31,8 +31,11 @@ func CreateHomestayController(c echo.Context) error {
 
 func GetAllHomestayController(c echo.Context) error {
 	homestay, err := databases.GetAllHomestays()
-	if err != nil || homestay == nil {
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
+	}
+	if homestay == nil {
+		return c.JSON(http.StatusBadRequest, response.HomestayNotFoundResponse())
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponseData(homestay))
 }
@@ -42,11 +45,29 @@ func GetHomestayByIDController(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
 	}
-	room, err := databases.GetHomestaysByID(id)
-	if err != nil || room == nil {
+	homestay, err := databases.GetHomestaysByID(id)
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}
-	return c.JSON(http.StatusOK, response.SuccessResponseData(room))
+	if homestay == nil {
+		return c.JSON(http.StatusBadRequest, response.HomestayNotFoundResponse())
+	}
+	return c.JSON(http.StatusOK, response.SuccessResponseData(homestay))
+}
+
+func GetHomestayByKotaIdController(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
+	}
+	homestay, err := databases.GetHomestaysByKotaId(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
+	}
+	if homestay == nil {
+		return c.JSON(http.StatusBadRequest, response.HomestayNotFoundResponse())
+	}
+	return c.JSON(http.StatusOK, response.SuccessResponseData(homestay))
 }
 
 func UpdateHomestayController(c echo.Context) error {
@@ -54,9 +75,9 @@ func UpdateHomestayController(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
 	}
-	id_user_room, _ := databases.GetIDUserHomestay(id)
+	id_user_homestay, _ := databases.GetIDUserHomestay(id)
 	logged := middlewares.ExtractTokenUserId(c)
-	if uint(logged) != id_user_room {
+	if uint(logged) != id_user_homestay {
 		return c.JSON(http.StatusBadRequest, response.AccessForbiddenResponse())
 	}
 	c.Bind(&homestay)
@@ -69,9 +90,9 @@ func DeleteHomestayController(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())
 	}
-	id_user_room, _ := databases.GetIDUserHomestay(id)
+	id_user_homestay, _ := databases.GetIDUserHomestay(id)
 	logged := middlewares.ExtractTokenUserId(c)
-	if uint(logged) != id_user_room {
+	if uint(logged) != id_user_homestay {
 		return c.JSON(http.StatusBadRequest, response.AccessForbiddenResponse())
 	}
 	databases.DeleteHomestays(id)
