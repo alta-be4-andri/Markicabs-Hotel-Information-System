@@ -18,6 +18,7 @@ type HomeStay struct {
 type Get_HomeStay struct {
 	ID        uint
 	Nama      string
+	UsersID   uint
 	Longitude float64
 	Latitude  float64
 	Alamat    string
