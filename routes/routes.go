@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"project2/constant"
 	"project2/controllers"
+	"project2/gocloud"
 
 	"github.com/labstack/echo/v4"
 	echoMid "github.com/labstack/echo/v4/middleware"
@@ -16,6 +17,7 @@ func New() *echo.Echo {
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
 	}))
+
 	e.POST("/input", controllers.InputDataFasilitasCon)
 	e.POST("/signup", controllers.CreateUserControllers)
 	e.POST("/signin", controllers.LoginUsersController)
@@ -27,6 +29,7 @@ func New() *echo.Echo {
 	e.GET("/rooms/:id", controllers.GetRoomByIdController)
 	e.GET("/rooms/check/:id", controllers.RoomReservationCheck)
 	e.GET("/reviews/:id", controllers.GetReviewsController)
+	e.POST("/cloud-storage-bucket/:id", gocloud.HandleFileUploadToBucket)
 
 	// JWT Group
 	r := e.Group("/jwt")
