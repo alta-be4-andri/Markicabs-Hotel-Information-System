@@ -47,7 +47,7 @@ func InitMigrate() {
 	DB.AutoMigrate(&models.Photo{})
 }
 
-// ===============================================================//
+// =====================================================================//
 
 // inisialisasi database untuk untuk unit testing
 func InitDBTest() {
