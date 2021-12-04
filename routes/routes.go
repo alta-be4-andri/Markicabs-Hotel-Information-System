@@ -29,7 +29,7 @@ func New() *echo.Echo {
 	e.GET("/rooms/:id", controllers.GetRoomByIdController)
 	e.GET("/rooms/check/:id", controllers.RoomReservationCheck)
 	e.GET("/reviews/:id", controllers.GetReviewsController)
-	e.POST("/cloud-storage-bucket/:id", gocloud.HandleFileUploadToBucket)
+	e.POST("/upload/:id", gocloud.HandleFileUploadToBucket)
 
 	// JWT Group
 	r := e.Group("/jwt")
@@ -52,7 +52,7 @@ func New() *echo.Echo {
 	r.POST("/rooms", controllers.InsertPhotoController)
 	r.GET("/rooms", controllers.GetAllPhotoController)
 	r.GET("/rooms/:id", controllers.DeletePhotoController)
-	r.POST("/rooms/upload", controllers.PhotoControllers)
+	// r.POST("/rooms/upload", controllers.PhotoControllers)
 
 	// Review JWT
 	r.POST("/reviews", controllers.AddReviewsController)
