@@ -61,6 +61,7 @@ func CreateReservationControllers(c echo.Context) error {
 		ChannelProperties: models.ChannelProperties{
 			MobileNumber: body.Phone,
 		},
+
 		Metadata: models.Metadata{
 			BranchArea: "PLUIT",
 			BranchCity: "JAKARTA",
