@@ -5,7 +5,6 @@ import (
 	"project2/models"
 )
 
-var result models.Get_HomeStay
 var homestay *models.HomeStay
 
 // Fungsi untuk membuat tempat penyewaan homestay baru
