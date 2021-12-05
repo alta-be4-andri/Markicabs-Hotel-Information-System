@@ -51,6 +51,7 @@ func CreateReservationControllers(c echo.Context) error {
 	databases.AddJumlahMalam(input.Check_In, input.Check_Out, reservation.ID)
 	totalHarga := databases.AddHargaToReservation(input.RoomsID, reservation.ID)
 
+	// Payment Xendit
 	var body2 = models.RequestBodyStruct{
 		ReferenceID:    strconv.Itoa(int(reservation.ID)),
 		Currency:       "IDR",
