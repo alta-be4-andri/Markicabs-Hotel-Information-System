@@ -33,14 +33,16 @@ type GetReservation struct {
 	Total_Harga int
 }
 
-// Struct Body
 type Metadata struct {
 	BranchArea string `json:"branch_area" validate:"required"`
 	BranchCity string `json:"branch_city" validate:"required"`
 }
+
 type ChannelProperties struct {
 	MobileNumber string `json:"mobile_number" validate:"required"`
 }
+
+// Struct Body
 type RequestBodyStruct struct {
 	ReferenceID       string            `json:"reference_id" validate:"required"`
 	Currency          string            `json:"currency" validate:"required"`
