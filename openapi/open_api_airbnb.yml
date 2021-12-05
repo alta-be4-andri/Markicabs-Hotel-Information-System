@@ -383,13 +383,13 @@ paths:
   
   
   ####################################
-  #  BOOKS
+  #  HOMESTAYS
   ####################################
-  /books:
+  /homestays:
     post:
       tags:
-        - Books
-      description: Insert new book
+        - Homestays
+      description: Create new homestay
       security:
         - JWTAuth: []
       requestBody:
@@ -398,79 +398,88 @@ paths:
             schema:
               type: object
               properties:
-                title:
+                nama:
                   type: string
-                  example: The Cruel Prince
-                category_id:
-                  type: integer
-                  example: 6
-                author_id:
-                  type: integer
-                  example: 6
-                publisher_id:
-                  type: integer
-                  example: 5
-                publish_year:
-                  type: string
-                  example: 2009
-                price:
-                  type: integer
-                  example: 500
-                quantity:
+                  example: Hotel Fafa Gans
+                kota_id:
                   type: integer
                   example: 1
-                description:
+                alamat:
                   type: string
-                  example: The Cruel Prince follows Jude, a human girl living among faeries. She wants to fit in, but her stubbornness and determination cause her to stand out among the royal family, where she aspires to become a knight. Jude has a twin sister Taryn and an older sister named Vivienne, who is a Faerie. Vivienne and Jude are both very rebellious and try their hardest to get what they want, no matter the circumstances, while Taryn is more of a people-pleaser.
+                  example: Jl. Jalanin aja no.1 kota, provinsi
+                photo:
+                  type: file
+                  example: photo.jpg
       responses:
         '200':
-          $ref: '#/components/responses/responseSuccess'
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCreateHomeStaySuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
         '400':
-          $ref: '#/components/responses/responseFailed'
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCreateHomeStayFailed'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
     get:
       tags:
-        - Books
-      description: Get all books
+        - Homestays
+      description: Get all homestays
       security:
         - JWTAuth: []
       responses:
         '200':
-          $ref: '#/components/responses/getAllBookSuccess'
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseGetAllHomeStaySuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
         '400':
-          $ref: '#/components/responses/getAllBookFailed'
-  /books/search/:
-    get:
-      tags:
-        - Books
-      description: Search book by keyword
-      security:
-        - JWTAuth: []
-      parameters:
-      - in: query
-        name: title
-        schema:
-          type: string
-          example: Rich Dad
-      - in: query
-        name: author
-        schema:
-          type: string
-          example: Bob
-      responses:
-        '200':
-          $ref: '#/components/responses/searchBookByKeywordSuccess'
-        '400':
-          $ref: '#/components/responses/responseFailed'
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseGetAllHomeStayFailed'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
   /books/{id}:
     get:
       tags:
-        - Books
-      description: Get book by id
+        - Homestays
+      description: Search book by id
       security:
         - JWTAuth: []
       parameters:
         - name: id
-          description: id user
+          description: id homestays
           in: path
           schema:
             type: integer
@@ -478,9 +487,125 @@ paths:
           required: true
       responses:
         '200':
-          $ref: '#/components/responses/getBookByIdSuccess'
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseGetHomeStaysByIDSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                    data: {
+                      id: 1,
+                      nama: Hotel Fafa Gans,
+                      user_id: 1,
+                      latitude: -113541,
+                      longitude: 134819853591,
+                      alamat: Jl. Jalanin aja No.1 kota, provinsi,
+                      rating: 5,
+                      url: http://images.com,
+                    }
+                  }
         '400':
-          $ref: '#/components/responses/getBookByIdFailed'
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseGetHomeStayByIDFailed'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+  /books/{id}:
+    update:
+      tags:
+        - Homestays
+      description: Update book by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id homestays
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseUpdateHomeStaySuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseUpdateHomeStayFailed'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+  /books/{id}:
+    delete:
+      tags:
+        - Homestays
+      description: Delete book by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id homestays
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseDeleteHomeStaySuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseDeleteHomeStayFailed'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
 #==================================#
 #    COMPONENT
 #==================================#
@@ -520,7 +645,7 @@ components:
         "password":
           type: string
           minLength: 1
-        "address":
+        "phone":
           type: string
           minLength: 1
     responseUserData:
@@ -535,7 +660,10 @@ components:
         "email":
           type: string
           minLength: 1
-        "address":
+        "phone":
+          type: string
+          minLength: 1
+        "token":
           type: string
           minLength: 1
     successGetSingleUserResponse:
@@ -547,57 +675,24 @@ components:
         "message": {
           type: string
         },
-        "status": {
-          type: string
-        },
         "data": {
           type: object
         }
       }
-    successGetAllUserResponse:
-      type: object
-      properties: {
-        "code":{
-          type: number
-        },
-        "message": {
-          type: string
-        },
-        "status": {
-          type: string
-        },
-        "data": {
-          type: array,
-          items: {
-            type: object
-          }
-        }
-      }
 
-    requestBook:
+    requestHomestays:
       type: object
       properties:
-        "title":
+        "nama":
           type: string
           minLength: 1
-        "category_id":
+        "kota_id":
+          type: int
+          minLength: 1
+        "alamat":
           type: string
           minLength: 1
-        "author_id":
-          type: string
-          minLength: 1
-        "publisher_id":
-          type: string
-          minLength: 1
-        "publish_year":
-          type: string
-          minLength: 1
-        "price":
-          type: number
-        "quantity":
-          type: number
-          minLength: 1
-        "description":
+        "photo":
           type: string
           minLength: 1
     responseLoginSuccess:
@@ -607,9 +702,6 @@ components:
           type: number
         },
         "message": {
-          type: string
-        },
-        "status": {
           type: string
         },
         "data":{
@@ -624,9 +716,6 @@ components:
         },
         "message": {
           type: string
-        },
-        "status": {
-          type: string
         }
       }
     failedResponse:
@@ -637,9 +726,6 @@ components:
         },
         "message": {
           type: string
-        },
-        "status": {
-          type: string
         }
       }
     
@@ -647,8 +733,8 @@ components:
   #    PARAMETERS
   #==================================#
   # parameters:
-  #   dataBook:
-  #     name: "dataBook"
+  #   dataHomestays:
+  #     name: "dataHomestays"
   #     in: query 
 
   requestBodies:
