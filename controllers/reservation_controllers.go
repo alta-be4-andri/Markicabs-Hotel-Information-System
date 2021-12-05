@@ -93,7 +93,7 @@ func CreateReservationControllers(c echo.Context) error {
 
 	var responsePayment models.ResponsePayment
 	json.Unmarshal([]byte(body4), &responsePayment)
-
+	// response
 	return c.JSON(http.StatusOK, response.ReservationSuccessResponse(reservation.ID, responsePayment))
 
 }
