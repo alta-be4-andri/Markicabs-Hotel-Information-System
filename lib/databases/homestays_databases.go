@@ -26,6 +26,7 @@ func GetAllHomestays() (interface{}, error) {
 }
 
 func GetHomestaysByID(id int) (interface{}, error) {
+	var result models.Get_HomeStay
 	err := config.DB.Table("home_stays").Select("home_stays.id, home_stays.nama, home_stays.users_id, home_stays.longitude, home_stays.latitude, home_stays.alamat, home_stays.rating, home_stay_photos.url").Joins(
 		"join home_stay_photos on home_stays.id = home_stay_photos.home_stay_id").Where("home_stays.deleted_at IS NULL AND home_stays.id =?", id).Find(&result)
 	rows_affected := err.RowsAffected
