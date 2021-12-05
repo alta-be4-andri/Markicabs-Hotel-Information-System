@@ -5,8 +5,6 @@ import (
 	"project2/models"
 )
 
-var homestay *models.HomeStay
-
 // Fungsi untuk membuat tempat penyewaan homestay baru
 func CreateHomestay(homestay *models.HomeStay) (*models.HomeStay, error) {
 	if err := config.DB.Create(&homestay).Error; err != nil {
@@ -55,6 +53,7 @@ func UpdateHomestays(id int, homestay *models.HomeStay) (interface{}, error) {
 }
 
 func DeleteHomestays(id int) (interface{}, error) {
+	var homestay *models.HomeStay
 	if err := config.DB.Where("id = ?", id).Delete(&homestay).Error; err != nil {
 		return nil, err
 	}
@@ -62,6 +61,7 @@ func DeleteHomestays(id int) (interface{}, error) {
 }
 
 func GetIDUserHomestay(id int) (uint, error) {
+	var homestay *models.HomeStay
 	err := config.DB.Find(&homestay, id)
 	if err.Error != nil {
 		return 0, err.Error
