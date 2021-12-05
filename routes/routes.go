@@ -28,7 +28,6 @@ func New() *echo.Echo {
 	e.GET("/rooms/:id", controllers.GetRoomByIdController)
 	e.GET("/rooms/check/:id", controllers.RoomReservationCheck)
 	e.GET("/reviews/:id", controllers.GetReviewsController)
-	// e.POST("/upload/:id", gocloud.UploadRoomPhoto)
 
 	// JWT Group
 	r := e.Group("/jwt")

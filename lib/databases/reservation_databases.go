@@ -21,8 +21,14 @@ func AddJumlahMalam(checkIn time.Time, checkOut time.Time, idReservation uint) {
 }
 
 // Fungsi untuk menambahkan harga pada reservasi
-func AddHargaToReservation(idRoom, idReservation uint) {
+func AddHargaToReservation(idRoom, idReservation uint) int {
+	var harga int
 	config.DB.Exec("UPDATE reservations SET total_harga = (SELECT harga FROM rooms WHERE id = ?)*jumlah_malam WHERE id = ?", idRoom, idReservation)
+	tx := config.DB.Raw("SELECT total_harga FROM reservations WHERE id = ?", idReservation).Scan(&harga)
+	if tx.Error != nil {
+		return 0
+	}
+	return harga
 }
 
 // Fungsi untuk mendapatkan reservasi by reservasi id
@@ -52,13 +58,4 @@ func CancelReservation(id int) (interface{}, error) {
 		return nil, err
 	}
 	return "deleted", nil
-}
-
-// Fungsi untuk membuat kartu kredit baru baru
-func CreateKartuKredit(kartuKredit *models.KartuKredit) (*models.KartuKredit, error) {
-	tx := config.DB.Create(&kartuKredit)
-	if tx.Error != nil {
-		return nil, tx.Error
-	}
-	return kartuKredit, nil
 }
