@@ -17,11 +17,9 @@ import (
 	"google.golang.org/appengine"
 )
 
-var (
-	homestay models.HomeStay
-)
-
 func CreateHomestayController(c echo.Context) error {
+	var storageClient *storage.Client
+	var homestay models.HomeStay
 	c.Bind(&homestay)
 	logged := middlewares.ExtractTokenUserId(c)
 	homestay.UsersID = uint(logged)
@@ -136,6 +134,7 @@ func GetHomestayByKotaIdController(c echo.Context) error {
 }
 
 func UpdateHomestayController(c echo.Context) error {
+	var homestay models.HomeStay
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.FalseParamResponse())

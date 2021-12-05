@@ -16,11 +16,8 @@ import (
 	"google.golang.org/appengine"
 )
 
-var (
-	storageClient *storage.Client
-)
-
 func CreateRoomController(c echo.Context) error {
+	var storageClient *storage.Client
 	body := models.BodyRoom{}
 	c.Bind(&body)
 	idHomestay, err := strconv.Atoi(c.Param("id"))
