@@ -18,7 +18,7 @@ func CreateHomestay(homestay *models.HomeStay) (*models.HomeStay, error) {
 
 func GetAllHomestays() (interface{}, error) {
 	var results []models.Get_HomeStay
-	if err := config.DB.Table("home_stays").Select("home_stays.id, home_stays.nama, home_stays.users_id, home_stays.longitude, home_stays.latitude, homes_stays.alamat, home_stays.rating, home_stay_photos.url").Joins(
+	if err := config.DB.Table("home_stays").Select("home_stays.id, home_stays.nama, home_stays.users_id, home_stays.longitude, home_stays.latitude, home_stays.alamat, home_stays.rating, home_stay_photos.url").Joins(
 		"join home_stay_photos on home_stays.id = home_stay_photos.home_stay_id").Where("home_stays.deleted_at IS NULL").Find(&results).Error; err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func GetAllHomestays() (interface{}, error) {
 }
 
 func GetHomestaysByID(id int) (interface{}, error) {
-	err := config.DB.Table("home_stays").Select("home_stays.id, home_stays.nama, home_stays.users_id, home_stays.longitude, home_stays.latitude, homes_stays.alamat, home_stays.rating, home_stay_photos.url").Joins(
+	err := config.DB.Table("home_stays").Select("home_stays.id, home_stays.nama, home_stays.users_id, home_stays.longitude, home_stays.latitude, home_stays.alamat, home_stays.rating, home_stay_photos.url").Joins(
 		"join home_stay_photos on home_stays.id = home_stay_photos.home_stay_id").Where("home_stays.deleted_at IS NULL AND home_stays.id =?", id).Find(&result)
 	rows_affected := err.RowsAffected
 	if err.Error != nil || rows_affected < 1 {
