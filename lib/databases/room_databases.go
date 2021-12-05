@@ -36,7 +36,8 @@ func CreateRoomFasilitas(idRoom uint, idFasilitas int) (interface{}, error) {
 func GetAllRooms() (interface{}, error) {
 	var results []models.AllRoomsResponse
 	tx := config.DB.Table("rooms").Select(
-		"rooms.id, rooms.home_stay_id,rooms.nama_room,rooms.total_penghuni, rooms.harga, rooms.deskripsi").Where("rooms.deleted_at IS NULL").Find(&results)
+		"rooms.id, rooms.home_stay_id,rooms.nama_room,rooms.total_penghuni, rooms.harga, rooms.deskripsi, room_photos.url").Joins(`
+		"join room_photos on rooms.id = room_photos.rooms_id"`).Where("rooms.deleted_at IS NULL").Find(&results)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
@@ -47,7 +48,8 @@ func GetAllRooms() (interface{}, error) {
 func GetRoomByHomestayID(id int) (interface{}, error) {
 	var results []models.AllRoomsResponse
 	tx := config.DB.Table("rooms").Select(
-		"rooms.id, rooms.home_stay_id,rooms.nama_room,rooms.total_penghuni, rooms.harga, rooms.deskripsi").Where("rooms.home_stay_id = ? AND rooms.deleted_at IS NULL", id).Find(&results)
+		"rooms.id, rooms.home_stay_id,rooms.nama_room,rooms.total_penghuni, rooms.harga, rooms.deskripsi, room_photos.url").Joins(`
+		"join room_photos on rooms.id = room_photos.rooms_id"`).Where("rooms.home_stay_id = ? AND rooms.deleted_at IS NULL", id).Find(&results)
 	if tx.Error != nil || tx.RowsAffected < 1 {
 		return nil, tx.Error
 	}
@@ -58,7 +60,8 @@ func GetRoomByHomestayID(id int) (interface{}, error) {
 func GetRoomByID(id int) (*models.FasilitasRoomResponse, error) {
 	var results models.FasilitasRoomResponse
 	tx := config.DB.Table("rooms").Select(
-		"rooms.id,rooms.nama_room, rooms.home_stay_id,rooms.total_penghuni, rooms.harga, rooms.deskripsi").Where("rooms.id = ? AND rooms.deleted_at IS NULL", id).Find(&results)
+		"rooms.id,rooms.nama_room, rooms.home_stay_id,rooms.total_penghuni, rooms.harga, rooms.deskripsi, room_photos.url").Joins(`
+		"join room_photos on rooms.id = room_photos.rooms_id"`).Where("rooms.id = ? AND rooms.deleted_at IS NULL", id).Find(&results)
 	if tx.Error != nil || tx.RowsAffected < 1 {
 		return nil, tx.Error
 	}

@@ -10,7 +10,7 @@ type Rooms struct {
 	Harga          int             `gorm:"not null" json:"harga" form:"harga"`
 	Deskripsi      string          `gorm:"type:longtext;not null" json:"deskripsi" form:"deskripsi"`
 	FasilitasRoom  []FasilitasRoom `gorm:"foreignKey:RoomsID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Photo          []Photo         `gorm:"foreignKey:RoomsID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	RoomPhoto      []RoomPhoto     `gorm:"foreignKey:RoomsID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 type BodyRoom struct {
@@ -29,6 +29,7 @@ type AllRoomsResponse struct {
 	Total_Penghuni int
 	Harga          int
 	Deskripsi      string
+	Url            string
 }
 
 type FasilitasRoomResponse struct {
@@ -38,5 +39,6 @@ type FasilitasRoomResponse struct {
 	Total_Penghuni int
 	Harga          int
 	Deskripsi      string
+	Url            string
 	Fasilitas      []string
 }

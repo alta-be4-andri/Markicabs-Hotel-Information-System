@@ -36,9 +36,9 @@ import (
 // }
 
 func InsertPhotoController(c echo.Context) error {
-	var photo models.Photo
+	var photo models.RoomPhoto
 	c.Bind(photo)
-	_, err := databases.InsertPhoto(&photo)
+	_, err := databases.InsertRoomPhoto(&photo)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.BadRequestResponse())
 	}

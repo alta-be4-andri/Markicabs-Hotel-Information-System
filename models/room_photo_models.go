@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Photo struct {
+type RoomPhoto struct {
 	gorm.Model
 	RoomsID    uint   `json:"rooms_id" form:"rooms_id"`
 	Nama_Photo string `gorm:"type:varchar(50);not null" json:"nama_photo" form:"nama_photo"`

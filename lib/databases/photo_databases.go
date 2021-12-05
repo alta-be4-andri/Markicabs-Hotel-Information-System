@@ -5,7 +5,14 @@ import (
 	"project2/models"
 )
 
-func InsertPhoto(photo *models.Photo) (interface{}, error) {
+func InsertRoomPhoto(photo *models.RoomPhoto) (interface{}, error) {
+	if err := config.DB.Create(&photo).Error; err != nil {
+		return nil, err
+	}
+	return photo, nil
+}
+
+func InsertHomestayPhoto(photo *models.HomeStayPhoto) (interface{}, error) {
 	if err := config.DB.Create(&photo).Error; err != nil {
 		return nil, err
 	}
@@ -13,7 +20,7 @@ func InsertPhoto(photo *models.Photo) (interface{}, error) {
 }
 
 func GetAllPhoto() (interface{}, error) {
-	var photo models.Photo
+	var photo models.RoomPhoto
 	var result []models.Get_Photo
 	if err := config.DB.Model(&photo).Where("rooms_id = ?", photo.RoomsID).Find(&result).Error; err != nil {
 		return nil, err
@@ -22,7 +29,7 @@ func GetAllPhoto() (interface{}, error) {
 }
 
 func DeletePhoto(id int) (interface{}, error) {
-	var photo models.Photo
+	var photo models.RoomPhoto
 	if err := config.DB.Where("id = ?", id).Delete(&photo).Error; err != nil {
 		return nil, err
 	}
@@ -30,7 +37,7 @@ func DeletePhoto(id int) (interface{}, error) {
 }
 
 func GetIDRoomsPhoto(id int) (uint, error) {
-	var photo models.Photo
+	var photo models.RoomPhoto
 	err := config.DB.Find(&photo, id)
 	if err.Error != nil {
 		return 0, err.Error

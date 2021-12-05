@@ -44,7 +44,7 @@ func InitMigrate() {
 	DB.AutoMigrate(&models.KartuKredit{})
 	DB.AutoMigrate(&models.Reservation{})
 	DB.AutoMigrate(&models.Review{})
-	DB.AutoMigrate(&models.Photo{})
+	DB.AutoMigrate(&models.RoomPhoto{})
 }
 
 // =====================================================================//
