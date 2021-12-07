@@ -10,7 +10,7 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: '1.0.0'
+  version: 1.0.9
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
@@ -26,7 +26,7 @@ tags:
     description: Authentication
   - name: Users
     description: User control
-  - name: Books
+  - name: Homestays
     description: Book data management
 paths:
   /login:
@@ -53,14 +53,6 @@ paths:
                   email: "alta2@alterra.id",
                   password: "inipassword2"
                 }
-              # type: object
-              # properties:
-              #   email:
-              #     type: string
-              #     example: alta@mail.com
-              #   password:
-              #     type: string
-              #     example: inipassword
       responses:
         '200':
           description: Success Response
@@ -108,7 +100,7 @@ paths:
                     code: 400,
                     message: "Email or Password Invalid"
                   }
-                responseData1:
+                responseData2:
                   description: response failed 2
                   value: {
                     code: 400,
@@ -128,7 +120,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/requestUserData'
+              $ref: '#/components/schemas/registerUserData'
             examples:
               userData1:
                 description: "Example data user"
@@ -146,39 +138,19 @@ paths:
                   password: "inipassword2",
                   phone: "0812345678910"
                 }
-              # type: object
-              # properties:
-              #   name:
-              #     type: string
-              #     example: Alta
-              #   email:
-              #     type: string
-              #     example: alta@mail.com
-              #   password:
-              #     type: string
-              #     example: inipassword
-              #   phone:
-              #     type: string
-              #     example: 08123456789
       responses:
         '200':
-        description: Success Response
+          description: Success Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseRegisterSuccess'
+                $ref: '#/components/schemas/successResponse'
               examples:
                 responseData1:
                   description: response success 1
                   value: {
                     code: 200,
-                    message: "Successful Operation",
-                  }
-                responseData2:
-                  description: response success 2
-                  value: {
-                    code: 200,
-                    message: "Successful Operation",
+                    message: "Login Successs",
                   }
 
         '400':
@@ -224,27 +196,19 @@ paths:
                     code: 400,
                     message: "Bad Request"
                   }
-  /users:
     get:
       tags:
         - Users
       description: Get User by JWT
       security:
         - JWTAuth: []
-      parameters:
-        - name: token
-          description: token user
-          schema:
-            type: string
-            example: "AyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co"
-          required: true
       responses:
         '200':
           description: Success Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseGetUserSuccess'
+                $ref: '#/components/schemas/responseUserData'
               examples:
                 responseData1:
                   description: response success 1
@@ -291,13 +255,6 @@ paths:
       description: Edit user profile
       security:
         - JWTAuth: []
-      parameters:
-        - name: token
-          description: token user
-          schema:
-            type: string
-            example: "AyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co"
-          required: true
       requestBody:
         content:
           application/json:
@@ -319,7 +276,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseUpdateUserSuccess'
+                $ref: '#/components/schemas/successResponse'
               examples:
                 responseData1:
                   description: response success 1
@@ -346,20 +303,13 @@ paths:
       description: Delete User by ID
       security:
         - JWTAuth: []
-      parameters:
-        - name: token
-          description: token user
-          schema:
-            type: string
-            example: "AyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co"
-          required: true
       responses:
         '200':
           description: Success Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseDeleteUserSuccess'
+                $ref: '#/components/schemas/successResponse'
               examples:
                 responseData1:
                   description: response success 1
@@ -408,7 +358,7 @@ paths:
                   type: string
                   example: Jl. Jalanin aja no.1 kota, provinsi
                 photo:
-                  type: file
+                  type: string
                   example: photo.jpg
       responses:
         '200':
@@ -416,7 +366,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseCreateHomeStaySuccess'
+                $ref: '#/components/schemas/successResponse'
               examples:
                 responseData1:
                   description: response success 1
@@ -429,7 +379,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseCreateHomeStayFailed'
+                $ref: '#/components/schemas/failedResponse'
               examples:
                 responseData1:
                   description: response failed 1
@@ -449,49 +399,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseGetAllHomeStaySuccess'
-              examples:
-                responseData1:
-                  description: response success 1
-                  value: {
-                    code: 200,
-                    message: "Successful Operation",
-                  }
-        '400':
-          description: Failed Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/responseGetAllHomeStayFailed'
-              examples:
-                responseData1:
-                  description: response failed 1
-                  value: {
-                    code: 400,
-                    message: "Bad Request",
-                  }
-  /books/{id}:
-    get:
-      tags:
-        - Homestays
-      description: Search book by id
-      security:
-        - JWTAuth: []
-      parameters:
-        - name: id
-          description: id homestays
-          in: path
-          schema:
-            type: integer
-            example: 1
-          required: true
-      responses:
-        '200':
-          description: Success Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/responseGetHomeStaysByIDSuccess'
+                $ref: '#/components/schemas/responseHomestaysData'
               examples:
                 responseData1:
                   description: response success 1
@@ -506,7 +414,7 @@ paths:
                       longitude: 134819853591,
                       alamat: Jl. Jalanin aja No.1 kota, provinsi,
                       rating: 5,
-                      url: http://images.com,
+                      url: url,
                     }
                   }
         '400':
@@ -514,7 +422,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseGetHomeStayByIDFailed'
+                $ref: '#/components/schemas/failedResponse'
               examples:
                 responseData1:
                   description: response failed 1
@@ -522,11 +430,11 @@ paths:
                     code: 400,
                     message: "Bad Request",
                   }
-  /books/{id}:
-    update:
+  /homestays/{id}:
+    get:
       tags:
         - Homestays
-      description: Update book by id
+      description: Search homestays by id
       security:
         - JWTAuth: []
       parameters:
@@ -543,7 +451,76 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseUpdateHomeStaySuccess'
+                $ref: '#/components/schemas/responseHomestaysData'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                    data: {
+                      id: 1,
+                      nama: Hotel Fafa Gans,
+                      user_id: 1,
+                      latitude: -113541,
+                      longitude: 134819853591,
+                      alamat: Jl. Jalanin aja No.1 kota, provinsi,
+                      rating: 5,
+                      url: url,
+                    }
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+    put:
+      tags:
+        - Homestays
+      description: Update book by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id homestays
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nama:
+                  type: string
+                  example: Hotel Fafacools
+                users_id:
+                  type: number
+                  example: 1
+                kota_id:
+                  type: number
+                  example: 3304
+                alamat:
+                  type: string
+                  example: alamat baru
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/successResponse'
               examples:
                 responseData1:
                   description: response success 1
@@ -556,7 +533,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseUpdateHomeStayFailed'
+                $ref: '#/components/schemas/failedResponse'
               examples:
                 responseData1:
                   description: response failed 1
@@ -564,7 +541,6 @@ paths:
                     code: 400,
                     message: "Bad Request",
                   }
-  /books/{id}:
     delete:
       tags:
         - Homestays
@@ -585,7 +561,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseDeleteHomeStaySuccess'
+                $ref: '#/components/schemas/successResponse'
               examples:
                 responseData1:
                   description: response success 1
@@ -598,7 +574,553 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseDeleteHomeStayFailed'
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+  ####################################
+  #  ROOMS
+  ####################################
+  /rooms:
+    post:
+      tags:
+        - Rooms
+      description: Create new rooms
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nama_room:
+                  type: string
+                  example: Fafa rooms
+                total_penghuni:
+                  type: integer
+                  example: 2
+                harga:
+                  type: integer
+                  example: 200000
+                deskripsi:
+                  type: string
+                  example: kamar satu kasur
+                fasilitas:
+                  type: array
+                  items:
+                    type: integer
+                    example: [1,2]
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/successResponse'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+    get:
+      tags:
+        - Rooms
+      description: Get all rooms
+      security:
+        - JWTAuth: []
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseRoomsData'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                    data: {
+                      id: 1,
+                      nama_room: Queen Bad,
+                      user_id: 1,
+                      homestayid: 1,
+                      total_penghuni: 1,
+                      harga: 200000,
+                      deskripsi: rapi dan bersih,
+                    }
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+  /rooms/homestays/{id}:
+    get:
+      tags:
+        - Rooms
+      description: Search room by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id room
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseRoomsData'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                    data: {
+                      id: 1,
+                      nama_room: Queen Bad,
+                      homestayid: 1,
+                      total_penghuni: 1,
+                      harga: 200000,
+                      deskripsi: rapi dan bersih,
+                    }
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+  /rooms/{id}:
+    get:
+      tags:
+        - Rooms
+      description: Search room by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id room
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseRoomsData'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                    data: {
+                      id: 1,
+                      nama_room: Queen Bad,
+                      user_id: 1,
+                      homestayid: 1,
+                      total_penghuni: 1,
+                      harga: 200000,
+                      deskripsi: rapi dan bersih,
+                    }
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+    put:
+      tags:
+        - Rooms
+      description: Edit room by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id room
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/successResponse'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+    delete:
+      tags:
+        - Rooms
+      description: Delete room by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id room
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/successResponse'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+  /rooms/upload:
+    post:
+      tags:
+        - Rooms
+      description: Add photo
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nama_room:
+                  type: string
+                  example: photo.jpg
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/successResponse'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+  ####################################
+  #  RESERVATION
+  ####################################
+  /reservation:
+    post:
+      tags:
+        - Reservation
+      description: Create new reservation
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rooms_id:
+                  type: integer
+                  example: 1
+                check_in:
+                  type: string
+                  example: 2021/12/03
+                check_out:
+                  type: string
+                  example: 2021/12/05
+                kartu_kredit:
+                  properties:
+                    type:
+                      type: string
+                      example: kredit
+                    nama:
+                      type: string
+                      example: fafa gans
+                    cvv:
+                      type: integer
+                      example: 234
+                    bulan:
+                      type: integer
+                      example: 5
+                    tahun:
+                      type: integer
+                      example: 2022
+                    nomor:
+                      type: integer
+                      example: 12345678
+                  
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/successResponse'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+  /rooms/check/{id}:
+    post:
+      tags:
+        - Reservation
+      description: Search reservation by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id room
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                check_in:
+                  type: string
+                  example: 2021/12/03
+                check_out:
+                  type: string
+                  example: 2021/12/05
+                
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseReservationData'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Room available",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+  /reservation/{id}:
+    get:
+      tags:
+        - Reservation
+      description: Search reservation by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id room
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseReservationData'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                    data: {
+                      rooms_id: 1,
+                      check_in: 2021/12/03,
+                      check_out: 2021/12/05,
+                      kartu_kredit: 1,
+                      total_harga: 200000,
+                    }
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Bad Request",
+                  }
+    delete:
+      tags:
+        - Reservation
+      description: Delete reservation by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: id room
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/successResponse'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "Successful Operation",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedResponse'
               examples:
                 responseData1:
                   description: response failed 1
@@ -624,6 +1146,7 @@ components:
   #    SCHEMAS
   #==================================#
   schemas:
+  #    Login
     requestLogin:
       type: object
       properties:
@@ -633,7 +1156,22 @@ components:
         "password":
           type: string
           minLength: 1
-    requestUserData:
+  #    Login Success
+    responseLoginSuccess:
+      type: object
+      properties: {
+        "code":{
+          type: number
+        },
+        "message": {
+          type: string
+        },
+        "data":{
+          type: object
+        }
+      }
+  #    Register
+    registerUserData:
       type: object
       properties:
         "name":
@@ -648,6 +1186,10 @@ components:
         "phone":
           type: string
           minLength: 1
+  #==================================#
+  #    USERS
+  #==================================#
+  #    Get User
     responseUserData:
       type: object
       properties:
@@ -666,48 +1208,86 @@ components:
         "token":
           type: string
           minLength: 1
-    successGetSingleUserResponse:
-      type: object
-      properties: {
-        "code":{
-          type: number
-        },
-        "message": {
-          type: string
-        },
-        "data": {
-          type: object
-        }
-      }
-
-    requestHomestays:
+  #==================================#
+  #    HOMESTAYSS
+  #==================================#
+  #    Get Homestays
+    responseHomestaysData:
       type: object
       properties:
+        "id":
+          type: number
+          minLength: 1
         "nama":
           type: string
           minLength: 1
-        "kota_id":
-          type: int
+        "users_id":
+          type: number
+          minLength: 1
+        "longitude":
+          type: number
+          minLength: 1
+        "latitude":
+          type: number
           minLength: 1
         "alamat":
           type: string
           minLength: 1
-        "photo":
+        "rating":
+          type: number
+          minLength: 1
+        "url":
           type: string
           minLength: 1
-    responseLoginSuccess:
+  #==================================#
+  #    ROOMS
+  #==================================#
+    responseRoomsData:
       type: object
-      properties: {
-        "code":{
+      properties:
+        "id":
           type: number
-        },
-        "message": {
+          minLength: 1
+        "nama_room":
           type: string
-        },
-        "data":{
-          type: object
-        }
-      }
+          minLength: 1
+        "homestayid":
+          type: number
+          minLength: 1
+        "total_penghuni":
+          type: number
+          minLength: 1
+        "harga":
+          type: number
+          minLength: 1
+        "deskrips":
+          type: string
+          minLength: 1
+  #==================================#
+  #    RESEVATION
+  #==================================#
+    responseReservationData:
+      type: object
+      properties:
+        "rooms_id":
+          type: number
+          minLength: 1
+        "check_in":
+          type: string
+          minLength: 1
+        "check_out":
+          type: number
+          minLength: 1
+        "kartu_kredit":
+          type: number
+          minLength: 1
+        "total_harga":
+          type: number
+          minLength: 1
+  #==================================#
+  #    GLOBAL RESPONSE
+  #==================================#
+  #    Success
     successResponse:
       type: object
       properties: {
@@ -718,6 +1298,7 @@ components:
           type: string
         }
       }
+  #    Failed
     failedResponse:
       type: object
       properties: {
@@ -737,26 +1318,26 @@ components:
   #     name: "dataHomestays"
   #     in: query 
 
-  requestBodies:
-    userData:
-      content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/requestUserData'
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: Alta
-                email:
-                  type: string
-                  example: alta@mail.com
-                password:
-                  type: string
-                  example: inipassword
-                address:
-                  type: string
-                  example: Jakarta
+  # requestBodies:
+  #   userData:
+  #     content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/requestUserData'
+  #             type: object
+  #             properties:
+  #               name:
+  #                 type: string
+  #                 example: Alta
+  #               email:
+  #                 type: string
+  #                 example: alta@mail.com
+  #               password:
+  #                 type: string
+  #                 example: inipassword
+  #               address:
+  #                 type: string
+  #                 example: Jakarta
 
   responses:
     #==================================#
