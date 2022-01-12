@@ -1,4 +1,4 @@
-# Project-2
+# Markicabs-Hotel-Information-System
 <div id="top"></div>
 <!-- PROJECT LOGO -->
 <br/>
